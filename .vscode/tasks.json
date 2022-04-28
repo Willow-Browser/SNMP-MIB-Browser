@@ -1,0 +1,55 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "powershell.exe",
+                "args": [
+                    "venv\\Scripts\\Activate.ps1",
+                    ";"
+                ]
+            },
+        }
+    },
+    "tasks": [
+        {
+            "label": "generate ui",
+            "type": "shell",
+            "command": "${workspaceFolder}/venv/Scripts/pyuic5.exe",
+            "args": [
+                "-o",
+                "main_window.py",
+                "${workspaceFolder}/QtUI/window.ui"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": ["Install Dependencies"]
+        },
+        {
+            "label": "Install Dependencies",
+            "type": "shell",
+            "windows": {
+                "command": "pip install -r requirements.txt",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+
+    ]
+}
