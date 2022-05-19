@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\gabfi\source\repos\SNMP-MIB-Browser/QtUI/window.ui'
+# Form implementation generated from reading ui file '.\QtUI\window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -17,16 +17,31 @@ class Ui_MainWindow(object):
         MainWindow.resize(1542, 1020)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.treeView = QtWidgets.QTreeView(self.centralwidget)
-        self.treeView.setGeometry(QtCore.QRect(90, 70, 256, 192))
-        self.treeView.setHeaderHidden(True)
-        self.treeView.setObjectName("treeView")
         self.treeWidget = QtWidgets.QTreeWidget(self.centralwidget)
-        self.treeWidget.setGeometry(QtCore.QRect(110, 390, 256, 192))
+        self.treeWidget.setGeometry(QtCore.QRect(640, 80, 256, 192))
         self.treeWidget.setColumnCount(2)
         self.treeWidget.setObjectName("treeWidget")
         self.treeWidget.headerItem().setText(0, "1")
         self.treeWidget.headerItem().setText(1, "2")
+        self.mibTreeWidget = QtWidgets.QWidget(self.centralwidget)
+        self.mibTreeWidget.setGeometry(QtCore.QRect(0, 0, 550, 971))
+        self.mibTreeWidget.setObjectName("mibTreeWidget")
+        self.snmpLabel = QtWidgets.QLabel(self.mibTreeWidget)
+        self.snmpLabel.setGeometry(QtCore.QRect(0, 0, 550, 45))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.snmpLabel.setFont(font)
+        self.snmpLabel.setAutoFillBackground(False)
+        self.snmpLabel.setStyleSheet("background-color: rgb(153, 180, 209);")
+        self.snmpLabel.setObjectName("snmpLabel")
+        self.treeView = QtWidgets.QTreeView(self.mibTreeWidget)
+        self.treeView.setGeometry(QtCore.QRect(0, 45, 550, 926))
+        self.treeView.setHeaderHidden(True)
+        self.treeView.setObjectName("treeView")
+        self.treeView.header().setVisible(False)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1542, 21))
@@ -60,6 +75,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.snmpLabel.setText(_translate("MainWindow", "SNMP OIDs"))
         self.menu_file.setTitle(_translate("MainWindow", "File"))
         self.menu_edit.setTitle(_translate("MainWindow", "Edit"))
         self.menu_operations.setTitle(_translate("MainWindow", "Operations"))

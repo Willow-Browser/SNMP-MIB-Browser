@@ -19,7 +19,7 @@
             "type": "shell",
             "command": "${workspaceFolder}/venv/Scripts/pyuic5.exe",
             "args": [
-                "-o",
+                "-o", 
                 "main_window.py",
                 "${workspaceFolder}/QtUI/window.ui"
             ],
