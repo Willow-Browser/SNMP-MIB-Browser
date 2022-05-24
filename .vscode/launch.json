@@ -8,8 +8,9 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/app.py",
+            "program": "${workspaceFolder}/mib_browser.py",
             "console": "integratedTerminal",
+            "python": "${command:python.interpreterPath}",
             "justMyCode": false
         }
     ]

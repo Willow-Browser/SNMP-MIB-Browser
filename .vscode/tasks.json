@@ -20,7 +20,7 @@
             "command": "${workspaceFolder}/venv/Scripts/pyuic5.exe",
             "args": [
                 "-o", 
-                "main_window.py",
+                "/MIB_Browser/main_window.py",
                 "${workspaceFolder}/QtUI/window.ui"
             ],
             "group": {

@@ -8,11 +8,12 @@ from main_window import Ui_MainWindow
 
 
 class StandardItem(QStandardItem):
-    def __init__(self, text):
+    def __init__(self, text, num=5):
         super().__init__()
         self.setEditable(False)
         self.setForeground(QColor(0, 0, 0))
         self.setText(text)
+        self.num = num
 
 
 class Window(QMainWindow, Ui_MainWindow):
