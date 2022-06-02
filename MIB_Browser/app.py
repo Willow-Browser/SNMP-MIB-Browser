@@ -9,7 +9,7 @@ from PyQt5.QtCore import pyqtSlot, pyqtSignal
 from PyQt5.uic import loadUi
 from MIB_Browser.scripts.add_base_oids import AddBaseOids
 
-from main_window import Ui_MainWindow
+from MIB_Browser.main_window import Ui_MainWindow
 
 
 def run():

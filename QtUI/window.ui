@@ -44,7 +44,8 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(153, 180, 209);</string>
+      <string notr="true">background-color: rgb(153, 180, 209);
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(153, 180, 209, 255), stop:1 rgba(255, 255, 255, 255));</string>
      </property>
      <property name="text">
       <string>SNMP OIDs</string>
@@ -58,6 +59,12 @@
        <width>550</width>
        <height>926</height>
       </rect>
+     </property>
+     <property name="indentation">
+      <number>10</number>
+     </property>
+     <property name="animated">
+      <bool>true</bool>
      </property>
      <property name="headerHidden">
       <bool>true</bool>
