@@ -7,6 +7,7 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor
 from PyQt5.QtCore import pyqtSlot, pyqtSignal
 
 from PyQt5.uic import loadUi
+from MIB_Browser.scripts.add_base_oids import AddBaseOids
 
 from main_window import Ui_MainWindow
 
@@ -38,15 +39,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.connect_signal_slots()
 
     def connect_signal_slots(self):
-        tree_model = QStandardItemModel()
-        root_node = tree_model.invisibleRootItem()
-
-        prj_a = StandardItem('Project A')
-        file_a_py = StandardItem('file_a.py')
-        prj_a.appendRow(file_a_py)
-
-        root_node.appendRow(prj_a)
-        self.treeView.setModel(tree_model)
+        self.treeView.setModel(AddBaseOids.get_base_oids())
         self.treeView.doubleClicked.connect(self.get_value)
 
     def get_value(self, val):

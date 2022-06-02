@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\QtUI\window.ui'
+# Form implementation generated from reading ui file 'C:\Users\gabfi\source\repos\SNMP-MIB-Browser/QtUI/window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -17,12 +17,6 @@ class Ui_MainWindow(object):
         MainWindow.resize(1542, 1020)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.treeWidget = QtWidgets.QTreeWidget(self.centralwidget)
-        self.treeWidget.setGeometry(QtCore.QRect(640, 80, 256, 192))
-        self.treeWidget.setColumnCount(2)
-        self.treeWidget.setObjectName("treeWidget")
-        self.treeWidget.headerItem().setText(0, "1")
-        self.treeWidget.headerItem().setText(1, "2")
         self.mibTreeWidget = QtWidgets.QWidget(self.centralwidget)
         self.mibTreeWidget.setGeometry(QtCore.QRect(0, 0, 550, 971))
         self.mibTreeWidget.setObjectName("mibTreeWidget")
