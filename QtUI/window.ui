@@ -64,7 +64,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
       <number>10</number>
      </property>
      <property name="animated">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="headerHidden">
       <bool>true</bool>
@@ -88,6 +88,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionLoadMibs"/>
    </widget>
    <widget class="QMenu" name="menu_edit">
     <property name="title">
@@ -122,6 +123,11 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <addaction name="menu_help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionLoadMibs">
+   <property name="text">
+    <string>Load MIBs</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
