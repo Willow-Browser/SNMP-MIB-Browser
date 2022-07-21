@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../resources/willow.svg</normaloff>../resources/willow.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="mibTreeWidget" native="true">
     <property name="geometry">
@@ -81,7 +85,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <x>0</x>
      <y>0</y>
      <width>1542</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -129,6 +133,5 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    </property>
   </action>
  </widget>
- <resources/>
  <connections/>
 </ui>

@@ -1,6 +1,7 @@
-PyQt5==5.15.7
-PyQt5-Qt5==5.15.2
-pycodestyle==2.8.0
+PyQt5>=5.15.7
+PyQt5-Qt5>=5.15.2
+pycodestyle>=2.8.0
 pysnmp==4.4.12
-pyinstaller==5.2
-ZODB==5.4.0
+pyinstaller>=5.2
+ZODB>=5.4.0
+pytest>=7.1.2

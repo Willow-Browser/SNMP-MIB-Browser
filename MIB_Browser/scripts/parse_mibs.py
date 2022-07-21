@@ -27,13 +27,11 @@ def parse_mibs(mib: str, tree_view: QTreeView):
     code_gen = JsonCodeGen()
     # debug.setLogger(debug.Debug('compiler'))
 
-    mib_stubs = JsonCodeGen.baseMibs
+    mib_stubs = code_gen.baseMibs
 
-    dstDirectory = os.path.join('.')
+    # dstDirectory = os.path.join('.')
 
     searchers = [StubSearcher(*mib_stubs)]
-
-    fileWriter = CallbackWriter(func)
 
     fileWriter = TestFileWrite(head_tail[0]).setOptions(suffix='.json')
 
@@ -72,11 +70,6 @@ def parse_mibs(mib: str, tree_view: QTreeView):
     for some_class in classes:
         print(some_class)
 
-    pass
-
-
-def func(mibname, contents, cbCtx):
-    x = 1
     pass
 
 
