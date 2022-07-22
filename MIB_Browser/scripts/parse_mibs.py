@@ -1,4 +1,3 @@
-import imp
 import os
 import sys
 from PyQt5.QtWidgets import QTreeView
