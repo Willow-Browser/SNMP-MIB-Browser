@@ -9,7 +9,7 @@ permissions:
   pull-requests: read
 
 env:
-  DEFAULT_PYTHON: 3.10
+  DEFAULT_PYTHON: "3.10"
 
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
