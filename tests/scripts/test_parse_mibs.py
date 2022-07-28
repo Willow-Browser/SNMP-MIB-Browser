@@ -1,15 +1,15 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, ANY
 import pytest
 import os
 
 from MIB_Browser.scripts.parse_mibs import parse_mibs
 
 
-@pytest.mark.parametrize("file_name", [
-    ("MIB-NAME.txt"),
-    ("MIB-NAME"),
-    ("MIB_NAME")])
-def test_parse_mib(file_name):
+@pytest.mark.parametrize("file_name, mib_name", [
+    ("MIB-NAME.txt", "MIB-NAME"),
+    ("MIB-NAME", "MIB-NAME"),
+    ("MIB_NAME", "MIB_NAME")])
+def test_parse_mib(file_name, mib_name):
     with patch(
         "MIB_Browser.scripts.parse_mibs.JsonCodeGen"
     ) as mock_json_code_gen, patch(
@@ -34,6 +34,7 @@ def test_parse_mib(file_name):
         mock_file_write_instance.setOptions.return_value = \
             mock_file_write_instance
         mock_parser_instance = mock_parser.return_value
+        mock_compiler_instance = mock_compiler.return_value
 
         parse_mibs(file_path, MagicMock())
 
@@ -44,3 +45,9 @@ def test_parse_mib(file_name):
             mock_parser_instance,
             mock_json_code_gen_instance,
             mock_file_write_instance)
+        assert mock_compiler_instance.addSources.call_count == 2
+        mock_compiler_instance.compile.assert_called_once_with(
+            mib_name,
+            noDeps=False,
+            genTexts=True,
+            textFilter=ANY)

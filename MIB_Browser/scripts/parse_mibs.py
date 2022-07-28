@@ -53,15 +53,11 @@ def parse_mibs(mib: str, tree_view: QTreeView):
 
         mib_compiler.addSearchers(*searchers)
 
-        # TODO : actually write the mib parsing logic
-
         _ = mib_compiler.compile(
             mib_name,
             **dict(noDeps=False,
                    genTexts=True,
-                   textFilter=True and (lambda symbol, text: text) or None))
-
-        xyz = 1
+                   textFilter=True and (lambda _, text: text) or None))
     except error.PySmiError:
         sys.stderr.write('ERROR: %s\r\n' % sys.exc_info()[1])
         sys.exit(70)
