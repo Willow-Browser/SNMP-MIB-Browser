@@ -1,5 +1,10 @@
 {
     "cSpell.words": [
+        "maxaccess",
+        "mibname",
+        "moduleidentity",
+        "objectidentity",
+        "objecttype",
         "Oids"
     ],
     "python.defaultInterpreterPath": "${workspaceFolder}/venv/Scripts/python.exe",

@@ -2,7 +2,13 @@ from unittest.mock import patch, MagicMock, ANY
 import pytest
 import os
 
-from MIB_Browser.scripts.parse_mibs import parse_mibs
+from MIB_Browser.scripts.parse_mibs import parse_mibs, FakeFileWrite
+
+
+@pytest.fixture
+def newFakeFileWrite():
+    instance = FakeFileWrite("./")
+    return instance
 
 
 @pytest.mark.parametrize("file_name, mib_name", [
@@ -19,7 +25,7 @@ def test_parse_mib(file_name, mib_name):
     ) as mock_compiler, patch(
         "MIB_Browser.scripts.parse_mibs.SmiV2Parser"
     ) as mock_parser, patch(
-        "MIB_Browser.scripts.parse_mibs.TestFileWrite"
+        "MIB_Browser.scripts.parse_mibs.FakeFileWrite"
     ) as mock_file_write:
         mocked_base_mibs = MagicMock()
 
@@ -51,3 +57,8 @@ def test_parse_mib(file_name, mib_name):
             noDeps=False,
             genTexts=True,
             textFilter=ANY)
+
+
+def test_file_write_get_data(newFakeFileWrite):
+    # TODO : write out these tests
+    pass

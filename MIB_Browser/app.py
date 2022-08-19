@@ -59,3 +59,6 @@ class Window(QMainWindow, Ui_MainWindow):
             for file in dlg.selectedFiles():
                 parse_mibs(file, self.treeView)
         print("Hey it worked!")
+
+    def transverse_tree(self):
+        tree_list = []
