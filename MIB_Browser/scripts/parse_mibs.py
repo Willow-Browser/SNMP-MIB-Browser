@@ -2,6 +2,7 @@ import os
 import sys
 from PyQt5.QtWidgets import QTreeView
 from PyQt5.QtCore import QAbstractItemModel
+from PyQt5.QtGui import QStandardItemModel
 from pysmi.reader import getReadersFromUrls
 from pysmi.searcher import AnyFileSearcher, PyFileSearcher, PyPackageSearcher, StubSearcher
 from pysmi.borrower import AnyFileBorrower, PyFileBorrower
@@ -33,6 +34,38 @@ def _iter_items(tree_view: QTreeView):
     root = tree_view.model().invisibleRootItem()
     if root is not None:
         yield from recurse(root)
+
+
+def iterItems2(tree_view: QTreeView):
+    def recurse(parent: QAbstractItemModel):
+        if root is not None:
+            for row in range(parent.rowCount()):
+                for column in range(parent.columnCount()):
+                    child = parent.child(row, column)
+                    yield child
+                    if child.hasChildren():
+                        for item in recurse(child):
+                            yield item
+
+    root = tree_view.model().invisibleRootItem()
+    return recurse(root)
+
+
+def iterItems3(tree_view: QTreeView):
+    def recurse(root: QStandardItemModel):
+        if root is not None:
+            stack = [root]
+            while stack:
+                parent = stack.pop(0)
+                for row in range(parent.rowCount()):
+                    for column in range(parent.columnCount()):
+                        child = parent.child(row, column)
+                        yield child
+                        if child.hasChildren():
+                            stack.append(child)
+
+    root = tree_view.model().invisibleRootItem()
+    return recurse(root)
 
 
 def parse_mibs(mib: str, tree_view: QTreeView):
@@ -88,9 +121,17 @@ def parse_mibs(mib: str, tree_view: QTreeView):
         if not duplicate:
             add_oids.append(oid)
 
-
     for some_class in classes:
         print(some_class)
+
+    for new_oid in add_oids:
+        root = tree_view.model().invisibleRootItem()
+        if root is not None:
+            # for (row)
+            pass
+        pass
+
+    tree_view.setModel(items)
 
     pass
 
