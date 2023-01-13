@@ -1,0 +1,148 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    name: ${{matrix.config.name}}
+    runs-on: ${{matrix.config.os}}
+    strategy:
+      fail-fast: true
+      matrix:
+        config:
+        - {
+            name: "Windows",
+            artifact: "Windows.tar.gz",
+            executable_name: "mib-browser.exe",
+            os: windows-2022,
+            build_tags: "production,desktop",
+          }
+        - {
+            name: "Ubuntu",
+            artifact: "Linux.tar.gz",
+            executable_name: "mib-browser",
+            os: ubuntu-20.04,
+            build_tags: "production,desktop",
+          }
+        - {
+            name: "macOS",
+            artifact: "macOS.tar.gz",
+            executable_name: "mib-browser.app",
+            os: macos-11,
+            build_tags: "production,desktop",
+          }
+    steps:
+      - name: Setup git to not change line endings
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.18.0'
+
+      - name: Setup NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.12.x
+
+      - name: Setup Webkit (Linux)
+        run: sudo apt update && sudo apt install -y libgtk-3-dev libwebkit2gtk-4.0-dev
+        if: ${{ matrix.config.name == 'Ubuntu' }}
+
+      - name: Setup jq (macOS)
+        uses: dcarbone/install-jq-action@v1.0.1
+        if: ${{ matrix.config.name == 'macOS' }}
+
+      - name: Setup Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.3.1
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test Backend
+        run: go test ./internal/... -race -coverprofile='coverage.out' -covermode=atomic
+
+      - name: Upload backend coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          flags: unittests,backend,${{ matrix.config.name }}
+          verbose: false
+
+      - name: Install Frontend Dependencies
+        run: yarn
+        working-directory: frontend
+
+      - name: Unit test frontend
+        run: yarn coverage
+        working-directory: frontend
+
+      - name: Upload frontend coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./frontend/coverage/
+          fail_ci_if_error: true
+          flags: unittests,frontend,${{ matrix.config.name }}
+          verbose: false
+
+      - name: Run linter frontend
+        run: yarn lint --no-fix
+        working-directory: frontend
+
+      - name: Build
+        run: wails build -tags ${{ matrix.config.build_tags }}
+
+      # - name: Code Sign (Windows)
+      #   if: ${{ matrix.config.name == 'Windows' }}
+      #   uses: lando/code-sign-action@v2
+      #   with:
+      #     file: build/bin/${{ matrix.config.executable_name }}
+      #     certificate-data: ${{ secrets.WINDOWS_CODE_CERT_DATA }}
+      #     certificate-password: ${{ secrets.WINDOWS_CODE_CERT_PASS }}
+
+      # - name: Code Sign (macOS)
+      #   if: ${{ matrix.config.name == 'macOS' }}
+      #   env:
+      #     MACOS_CODE_CERT_DATA: ${{ secrets.MACOS_CODE_CERT_DATA }}
+      #     MACOS_CODE_CERT_PASS: ${{ secrets.MACOS_CODE_CERT_PASS }}
+      #     MACOS_CODE_CERT_TEAM_ID: ${{ secrets.MACOS_CODE_CERT_TEAM_ID }}
+      #     MACOS_EXECUTABLE_PATH: ./build/bin/${{ matrix.config.executable_name }}
+      #   run: |
+      #     echo $MACOS_CODE_CERT_DATA | base64 --decode > certificate.p12
+      #     security create-keychain -p $MACOS_CODE_CERT_PASS build.keychain
+      #     security default-keychain -s build.keychain
+      #     security unlock-keychain -p $MACOS_CODE_CERT_PASS build.keychain
+      #     security import certificate.p12 -k build.keychain -P $MACOS_CODE_CERT_PASS -T /usr/bin/codesign
+      #     security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $MACOS_CODE_CERT_PASS build.keychain
+      #     /usr/bin/codesign --force -s $MACOS_CODE_CERT_TEAM_ID --deep --options=runtime "$MACOS_EXECUTABLE_PATH"
+      # - name: Notarize (macOS)
+      #   if: ${{ matrix.config.name == 'macOS' }}
+      #   uses: devbotsxyz/xcode-notarize@v1
+      #   with:
+      #     appstore-connect-username: ${{ secrets.MACOS_NOTARY_USER }}
+      #     appstore-connect-password: ${{ secrets.MACOS_NOTARY_PASS }}
+      #     primary-bundle-id: com.wails.restic-browser
+      #     product-path: ./build/bin/${{ matrix.config.executable_name }}
+      #     verbose: false
+
+      # - name: Archive
+      #   uses: thedoctor0/zip-release@main
+      #   with:
+      #     type: tar
+      #     directory: build
+      #     path: bin
+      #     filename: ${{ matrix.config.artifact }}
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.config.executable_name }}
+          path: build/bin/${{ matrix.config.executable_name }}
+          if: ${{ matrix.config.name != 'macOS' }}

@@ -1,72 +1,140 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "windows": {
-        "options": {
-            "shell": {
-                "executable": "powershell.exe",
-                "args": [
-                    "venv\\Scripts\\Activate.ps1",
-                    ";"
-                ]
-            },
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CGO_ENABLED": "1"
         }
-    },
-    "linux": {
+      },
+      "osx": {
         "options": {
-            "shell": {
-                "executable": "bash",
-                "args": [
-                    "source",
-                    "venv/bin/activate",
-                    ";"
-                ]
-            }
+          "env": {
+            "CGO_CFLAGS": "-mmacosx-version-min=10.13",
+            "CGO_LDFLAGS": "-framework UniformTypeIdentifiers -mmacosx-version-min=10.13"
+          }
         }
+      },
+      "windows": {
+        "options": {
+          "env": {
+            "CGO_ENABLED": "0"
+          }
+        }
+      },
+      "command": "go",
+      "args": [
+        "build",
+        "-tags",
+        "production,desktop",
+        "-gcflags",
+        "all=-N -l",
+        "-o",
+        "build/bin/test-wails.exe"
+      ]
     },
-    "tasks": [
-        {
-            "label": "generate ui",
-            "type": "shell",
-            "linux":{
-                "command": "${workspaceFolder}/venv/bin/pyuic5"
-            },
-            "windows": {
-                "command": "${workspaceFolder}/venv/Scripts/pyuic5.exe",
-            },
-            "args": [
-                "-o", 
-                "./MIB_Browser/main_window.py",
-                "${workspaceFolder}/QtUI/window.ui"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": [],
-            "dependsOn": ["Install Dependencies"]
-        },
-        {
-            "label": "Install Dependencies",
-            "type": "shell",
-            "windows": {
-                "command": "pip install -r requirements.txt",
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-
-    ]
+    {
+      "label": "build debug",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CGO_ENABLED": "1"
+        }
+      },
+      "osx": {
+        "options": {
+          "env": {
+            "CGO_CFLAGS": "-mmacosx-version-min=10.13",
+            "CGO_LDFLAGS": "-framework UniformTypeIdentifiers -mmacosx-version-min=10.13"
+          }
+        }
+      },
+      "windows": {
+        "options": {
+          "env": {
+            "CGO_ENABLED": "0"
+          }
+        }
+      },
+      "command": "go",
+      "args": [
+        "build",
+        "-tags",
+        "production,desktop,debug",
+        "-gcflags",
+        "all=-N -l",
+        "-o",
+        "build/bin/test-wails.exe"
+      ]
+    },
+    {
+      "label": "yarn install",
+      "type": "shell",
+      "command": "yarn",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "yarn build",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["build"],
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build dev",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "CGO_ENABLED": "1"
+        }
+      },
+      "osx": {
+        "options": {
+          "env": {
+            "CGO_CFLAGS": "-mmacosx-version-min=10.13",
+            "CGO_LDFLAGS": "-framework UniformTypeIdentifiers -mmacosx-version-min=10.13"
+          }
+        }
+      },
+      "windows": {
+        "options": {
+          "env": {
+            "CGO_ENABLED": "0"
+          }
+        }
+      },
+      "command": "go",
+      "args": [
+        "build",
+        "-tags",
+        "dev",
+        "-gcflags",
+        "all=-N -l",
+        "-o",
+        "build/bin/test-wails.exe"
+      ],
+      "dependsOn": ["yarn install", "yarn build"]
+    }
+  ]
 }

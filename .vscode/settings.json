@@ -1,16 +1,31 @@
 {
+    "[typescript][javascript][vue]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "off",
+      "strings": "on"
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.validate": [
+      "typescript",
+      "typescriptreact",
+      "javascript",
+      "javascriptreact",
+      "vue"
+    ],
+    "eslint.packageManager": "yarn",
     "cSpell.words": [
-        "maxaccess",
-        "mibname",
-        "moduleidentity",
-        "objectidentity",
-        "objecttype",
-        "Oids"
+        "mibreader",
+        "Oids",
+        "snmp"
     ],
-    "python.defaultInterpreterPath": "${workspaceFolder}/venv/Scripts/python.exe",
-    "python.testing.pytestArgs": [
-        "tests"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "vitest.enable": true,
 }
