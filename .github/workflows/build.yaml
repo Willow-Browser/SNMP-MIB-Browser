@@ -4,8 +4,16 @@ on:
   pull_request:
     branches:
     - main
+    paths-ignore:
+      - "README.md"
+      - ".github/*.md"
+      - ".github/FUNDING.yml"
   workflow_dispatch:
   push:
+    paths-ignore:
+      - "README.md"
+      - ".github/*.md"
+      - ".github/FUNDING.yml"
 
 jobs:
   build:
