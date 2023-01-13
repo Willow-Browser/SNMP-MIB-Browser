@@ -6,9 +6,15 @@ describe("class test suite", () => {
   it("sequential children", () => {
     const oids = Array<oidstorage.Oid>();
 
-    const firstOid = new oidstorage.Oid('{"name": "iso","oid": ".1"}');
-    const secondOid = new oidstorage.Oid('{"name": "org","oid": ".1.3"}');
-    const thirdOid = new oidstorage.Oid('{"name": "dod","oid": ".1.3.6"}');
+    const firstOid = new oidstorage.Oid(
+      '{"name": "iso","oid": ".1","type": "ObjectIdentity"}'
+    );
+    const secondOid = new oidstorage.Oid(
+      '{"name": "org","oid": ".1.3","type": "ObjectIdentity"}'
+    );
+    const thirdOid = new oidstorage.Oid(
+      '{"name": "dod","oid": ".1.3.6","type": "ModuleIdentity"}'
+    );
 
     oids.push(firstOid, thirdOid, secondOid);
 
@@ -19,14 +25,17 @@ describe("class test suite", () => {
     const expectedTree: OidTree = {
       name: "iso",
       oid: ".1",
+      type: "ObjectIdentity",
       children: [
         {
           name: "org",
           oid: ".1.3",
+          type: "ObjectIdentity",
           children: [
             {
               name: "dod",
               oid: ".1.3.6",
+              type: "ModuleIdentity",
             },
           ],
         },
@@ -39,17 +48,23 @@ describe("class test suite", () => {
   it("multiple children at single level", () => {
     const oids = Array<oidstorage.Oid>();
 
-    const firstOid = new oidstorage.Oid('{"name": "iso","oid": ".1"}');
-    const secondOid = new oidstorage.Oid('{"name": "org","oid": ".1.3"}');
-    const thirdOid = new oidstorage.Oid('{"name": "dod","oid": ".1.3.6"}');
+    const firstOid = new oidstorage.Oid(
+      '{"name": "iso","oid": ".1","type": "ObjectIdentity"}'
+    );
+    const secondOid = new oidstorage.Oid(
+      '{"name": "org","oid": ".1.3","type": "ObjectIdentity"}'
+    );
+    const thirdOid = new oidstorage.Oid(
+      '{"name": "dod","oid": ".1.3.6","type": "ModuleIdentity"}'
+    );
     const thirdOidChild1 = new oidstorage.Oid(
-      '{"name": "thirdOidChild1","oid": ".1.3.6.1"}'
+      '{"name": "thirdOidChild1","oid": ".1.3.6.1","type": "ObjectType"}'
     );
     const thirdOidChild2 = new oidstorage.Oid(
-      '{"name": "thirdOidChild2","oid": ".1.3.6.2"}'
+      '{"name": "thirdOidChild2","oid": ".1.3.6.2","type": "ObjectType"}'
     );
     const thirdOidChild3 = new oidstorage.Oid(
-      '{"name": "thirdOidChild3","oid": ".1.3.6.3"}'
+      '{"name": "thirdOidChild3","oid": ".1.3.6.3","type": "NotificationType"}'
     );
 
     oids.push(
@@ -68,26 +83,32 @@ describe("class test suite", () => {
     const expectedTree: OidTree = {
       name: "iso",
       oid: ".1",
+      type: "ObjectIdentity",
       children: [
         {
           name: "org",
           oid: ".1.3",
+          type: "ObjectIdentity",
           children: [
             {
               name: "dod",
               oid: ".1.3.6",
+              type: "ModuleIdentity",
               children: [
                 {
                   name: "thirdOidChild1",
                   oid: ".1.3.6.1",
+                  type: "ObjectType",
                 },
                 {
                   name: "thirdOidChild2",
                   oid: ".1.3.6.2",
+                  type: "ObjectType",
                 },
                 {
                   name: "thirdOidChild3",
                   oid: ".1.3.6.3",
+                  type: "NotificationType",
                 },
               ],
             },

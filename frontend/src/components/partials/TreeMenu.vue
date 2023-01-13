@@ -2,6 +2,8 @@
 import { computed, ref } from "vue";
 import PlusBoxOutline from "~icons/mdi/plus-box-outline";
 import MinusBoxOutline from "~icons/mdi/minus-box-outline";
+import Folder from "~icons/mdi/folder";
+import FolderOutline from "~icons/mdi/folder-outline";
 import { OidTree } from "../../utils/treeBuilder";
 
 const showChildren = ref(false);
@@ -39,6 +41,18 @@ function calculatePadding(): string {
 
   return padding;
 }
+
+function isModuleIdentifier(): boolean {
+  console.log(props.node.type);
+
+  switch (props.node.type) {
+    case "ObjectIdentity":
+    case "ModuleIdentity":
+      return true;
+    default:
+      return false;
+  }
+}
 </script>
 
 <template>
@@ -55,9 +69,12 @@ function calculatePadding(): string {
           height="20"
           width="20"
         />
-        <p :class="calculatePadding()">
-          {{ node.name }}
-        </p>
+        <div :class="calculatePadding()" class="flex">
+          <FolderOutline v-if="isModuleIdentifier()" height="20" width="20" />
+          <p class="pl-1">
+            {{ node.name }}
+          </p>
+        </div>
       </div>
     </div>
     <div v-if="showChildren">

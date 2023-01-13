@@ -4,6 +4,7 @@ import { oidstorage } from "../../wailsjs/go/models";
 export interface OidTree {
   name: string;
   oid: string;
+  type: string;
   children?: Array<OidTree>;
 }
 
@@ -15,7 +16,7 @@ export class TreeSorter {
   }
 
   createOidTree(): OidTree {
-    const tree: OidTree = { name: "", oid: "" };
+    const tree: OidTree = { name: "", oid: "", type: "" };
     let i: number;
 
     for (i = 0; i < this.#newOids.length; i++) {
@@ -23,6 +24,7 @@ export class TreeSorter {
       if (oid.name === "iso") {
         tree.name = oid.name;
         tree.oid = oid.oid;
+        tree.type = oid.type;
         break;
       }
     }
@@ -49,6 +51,7 @@ export class TreeSorter {
       const newChildNode: OidTree = {
         name: oid.name,
         oid: oid.oid,
+        type: oid.type,
       };
 
       if (parent.children === undefined) {

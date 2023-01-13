@@ -20,13 +20,29 @@ func createBaseOids() []Oid {
 	baseOids := []Oid{}
 
 	iso := CreateNewOid("iso", ".1", "SNMPv2-SMI")
+	iso.Type = ModuleIdentity
+
 	org := CreateNewOid("org", ".1.3", "SNMPv2-SMI")
+	org.Type = ObjectIdentity
+
 	dod := CreateNewOid("dod", ".1.3.6", "SNMPv2-SMI")
+	dod.Type = ObjectIdentity
+
 	internet := CreateNewOid("internet", ".1.3.6.1", "SNMPv2-SMI")
+	internet.Type = ObjectIdentity
+
 	directory := CreateNewOid("directory", ".1.3.6.1.1", "SNMPv2-SMI")
+	directory.Type = ObjectIdentity
+
 	mgmt := CreateNewOid("mgmt", ".1.3.6.1.2", "SNMPv2-SMI")
+	mgmt.Type = ObjectIdentity
+
 	mib_2 := CreateNewOid("mib-2", ".1.3.6.1.2.1", "SNMPv2-SMI")
+	mib_2.Type = ObjectIdentity
+
 	system := CreateNewOid("system", ".1.3.6.1.2.1.1", "SNMPv2-MIB")
+	system.Type = ObjectIdentity
+
 	sysDescr := CreateNewOid("sysDescr", ".1.3.6.1.2.1.1.1", "SNMPv2-MIB")
 	sysObjectID := CreateNewOid("sysObjectID", ".1.3.6.1.2.1.1.2", "SNMPv2-MIB")
 	sysUpTime := CreateNewOid("sysUpTime", ".1.3.6.1.2.1.1.3", "SNMPv2-MIB")
@@ -35,13 +51,28 @@ func createBaseOids() []Oid {
 	sysLocation := CreateNewOid("sysLocation", ".1.3.6.1.2.1.1.6", "SNMPv2-MIB")
 	sysServices := CreateNewOid("sysServices", ".1.3.6.1.2.1.1.7", "SNMPv2-MIB")
 	experimental := CreateNewOid("experimental", ".1.3.6.1.3", "SNMPv2-SMI")
+	experimental.Type = ObjectIdentity
+
 	private := CreateNewOid("private", ".1.3.6.1.4", "SNMPv2-SMI")
+	private.Type = ObjectIdentity
+
 	enterprises := CreateNewOid("enterprises", ".1.3.6.1.4.1", "SNMPv2-SMI")
+	enterprises.Type = ObjectIdentity
+
 	security := CreateNewOid("security", ".1.3.6.1.5", "SNMPv2-SMI")
+	security.Type = ObjectIdentity
+
 	snmpV2 := CreateNewOid("snmpV2", ".1.3.6.1.6", "SNMPv2-SMI")
+	snmpV2.Type = ObjectIdentity
+
 	snmpDomains := CreateNewOid("snmpDomains", ".1.3.6.1.6.1", "SNMPv2-SMI")
+	snmpDomains.Type = ObjectIdentity
+
 	snmpProxys := CreateNewOid("snmpProxys", ".1.3.6.1.6.2", "SNMPv2-SMI")
+	snmpProxys.Type = ObjectIdentity
+
 	snmpModules := CreateNewOid("snmpModules", ".1.3.6.1.6.3", "SNMPv2-SMI")
+	snmpModules.Type = ObjectIdentity
 
 	iso.AddChildren(&org)
 	org.AddChildren(&dod)
