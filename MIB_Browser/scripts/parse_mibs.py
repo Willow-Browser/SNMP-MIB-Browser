@@ -110,16 +110,37 @@ def parse_mibs(mib: str, tree_view: QTreeView):
         sys.exit(70)
 
     items = _iter_items(tree_view)
-    add_oids = []
+    add_oids = []  # try this again with private added
+    new_items = []
+
+    for item in items:
+        new_items.append(item)
+
+    def is_direct_child(parent_oid: str, child_oid: str) -> bool:
+        parent = parent_oid.split(".")
+        child = child_oid.split(".")
+
+        if len(parent) < len(child) and (len(parent) + 1) == len(child):
+            for i in range(len(parent)):
+                if parent[i] != child[i]:
+                    return False
+
+            return True
+        return False
+
+    def is_duplicate(oid: str) -> bool:
+        for item in new_items:
+            if item.oid == oid:
+                return True
+        return False
 
     for oid in fileWriter.oids:
-        duplicate = False
-        for item in items:
-            if item.oid == oid.oid:
-                duplicate = True
-                break
-        if not duplicate:
-            add_oids.append(oid)
+        if not is_duplicate(oid.oid):
+            for item in new_items:
+                if is_direct_child(item.oid, oid.oid):
+                    # surprised this works
+                    item.appendRow(oid)
+                    # add_oids.append(oid)
 
     for some_class in classes:
         print(some_class)
@@ -131,7 +152,7 @@ def parse_mibs(mib: str, tree_view: QTreeView):
             pass
         pass
 
-    tree_view.setModel(items)
+    # tree_view.setModel(items)
 
     pass
 
