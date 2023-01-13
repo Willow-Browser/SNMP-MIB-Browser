@@ -1,17 +1,49 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/mib_browser.py",
-            "console": "integratedTerminal",
-            "python": "${command:python.interpreterPath}",
-            "justMyCode": false
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch file",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${file}",
+      "args": [
+        "C:\\Users\\gabfi\\source\\repos\\SNMP-MIB-Browser\\MIBs\\CISCO-FLASH-MIB.txt"
+      ]
+    },
+    {
+      "name": "Wails: Production test-wails",
+      "type": "go",
+      "request": "launch",
+      "mode": "exec",
+      "program": "${workspaceFolder}/build/bin/test-wails.exe",
+      "preLaunchTask": "build",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Wails: Debug test-wails",
+      "type": "go",
+      "request": "launch",
+      "mode": "exec",
+      "program": "${workspaceFolder}/build/bin/test-wails.exe",
+      "preLaunchTask": "build debug",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Wails: Dev test-wails",
+      "type": "go",
+      "request": "launch",
+      "mode": "exec",
+      "program": "${workspaceFolder}/build/bin/test-wails.exe",
+      "preLaunchTask": "build dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Wails: Debug Frontend",
+      "request": "launch",
+      "type": "firefox",
+      "url": "http://localhost:34115",
+      "webRoot": "${workspaceFolder}/frontend"
+    }
+  ]
 }

@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - directory: /
+    package-ecosystem: gomod
+    schedule:
+      timezone: "05:00 UTC"
+  - directory: /frontend/
+    package-ecosystem: npm
+    schedule:
+      timezone: "05:00 UTC"

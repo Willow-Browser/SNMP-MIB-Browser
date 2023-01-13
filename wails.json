@@ -1,0 +1,20 @@
+{
+  "name": "snmp-mib-browser",
+  "outputfilename": "mib-browser",
+  "frontend:install": "yarn",
+  "frontend:build": "yarn build",
+  "frontend:dev:watcher": "yarn dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Gabriel Fidder",
+    "email": "gabfid@gmail.com"
+  },
+  "info": {
+    "productName": "SNMP-MIB-Browser",
+    "companyName": "Willow Browser",
+    "productVersion": "0.0.1",
+    "copyright": "see https://github.com/Willow-Browser/SNMP-MIB-Browser",
+    "description": "SNMP MIB Browser",
+    "comments": "Built using Wails and Vue.js"
+  }
+}
