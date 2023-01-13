@@ -13,11 +13,28 @@
             },
         }
     },
+    "linux": {
+        "options": {
+            "shell": {
+                "executable": "bash",
+                "args": [
+                    "source",
+                    "venv/bin/activate",
+                    ";"
+                ]
+            }
+        }
+    },
     "tasks": [
         {
             "label": "generate ui",
             "type": "shell",
-            "command": "${workspaceFolder}/venv/Scripts/pyuic5.exe",
+            "linux":{
+                "command": "${workspaceFolder}/venv/bin/pyuic5"
+            },
+            "windows": {
+                "command": "${workspaceFolder}/venv/Scripts/pyuic5.exe",
+            },
             "args": [
                 "-o", 
                 "./MIB_Browser/main_window.py",

@@ -1,0 +1,34 @@
+{
+  "compliance": {
+    "1.3.6.1.6.3.1.2.1.2": [
+      "SNMPv2-MIB"
+    ],
+    "1.3.6.1.6.3.1.2.1.3": [
+      "SNMPv2-MIB"
+    ]
+  },
+  "enterprise": {},
+  "identity": {
+    "1.3.6.1.6.3.1": [
+      "SNMPv2-MIB"
+    ]
+  },
+  "meta": {
+    "comments": [
+      "On host ? platform ? version ? by user ?",
+      "Produced by pysmi-0.3.4 at Thu Jun 30 07:36:00 2022",
+      "Using Python version 3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]"
+    ]
+  },
+  "oids": {
+    "1.3.6.1.2.1.1": [
+      "SNMPv2-MIB"
+    ],
+    "1.3.6.1.2.1.11": [
+      "SNMPv2-MIB"
+    ],
+    "1.3.6.1.6.3.1": [
+      "SNMPv2-MIB"
+    ]
+  }
+}
