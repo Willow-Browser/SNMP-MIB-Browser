@@ -55,6 +55,9 @@ function isModuleIdentifier(): boolean {
   }
 }
 
+// TODO : conformance OIDs
+// TODO : parse tables and indices better so we can actually add icons
+
 function isObjectType(): boolean {
   return props.node.type === "ObjectType";
 }
