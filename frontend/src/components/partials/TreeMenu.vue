@@ -3,6 +3,9 @@ import { computed, ref } from "vue";
 import PlusBoxOutline from "~icons/mdi/plus-box-outline";
 import MinusBoxOutline from "~icons/mdi/minus-box-outline";
 import Folder from "~icons/mdi/folder";
+import Leaf from "~icons/mdi/leaf";
+import Pen from "~icons/mdi/fountain-pen-tip";
+import LightningBolt from "~icons/mdi/lightning-bolt";
 import FolderOutline from "~icons/mdi/folder-outline";
 import { OidTree } from "../../utils/treeBuilder";
 
@@ -43,8 +46,6 @@ function calculatePadding(): string {
 }
 
 function isModuleIdentifier(): boolean {
-  console.log(props.node.type);
-
   switch (props.node.type) {
     case "ObjectIdentity":
     case "ModuleIdentity":
@@ -53,12 +54,37 @@ function isModuleIdentifier(): boolean {
       return false;
   }
 }
+
+function isObjectType(): boolean {
+  return props.node.type === "ObjectType";
+}
+
+function isReadOnly(): boolean {
+  return props.node.access === "ReadOnly";
+}
+
+function isReadWrite(): boolean {
+  return props.node.access === "ReadWrite";
+}
+
+function isNotificationType(): boolean {
+  return props.node.type === "NotificationType";
+}
+
+function printType() {
+  console.log(props.node);
+}
 </script>
 
 <template>
   <div>
     <div class="pb-1 mb-1" @click="toggleChildren">
-      <div :style="indent" :class="cursorClass()" class="flex text-gray-900">
+      <div
+        :style="indent"
+        :class="cursorClass()"
+        class="flex text-gray-900"
+        @click="printType()"
+      >
         <PlusBoxOutline
           v-if="hasChildren() && !showChildren"
           height="20"
@@ -70,7 +96,30 @@ function isModuleIdentifier(): boolean {
           width="20"
         />
         <div :class="calculatePadding()" class="flex">
-          <FolderOutline v-if="isModuleIdentifier()" height="20" width="20" />
+          <FolderOutline
+            v-if="isModuleIdentifier()"
+            class="folder"
+            height="20"
+            width="20"
+          />
+          <Leaf
+            v-else-if="isObjectType() && isReadOnly()"
+            class="leaf"
+            height="20"
+            width="20"
+          />
+          <Pen
+            v-else-if="isObjectType() && isReadWrite()"
+            class="pen"
+            height="20"
+            width="20"
+          />
+          <LightningBolt
+            v-else-if="isNotificationType()"
+            class="lightning"
+            height="20"
+            width="20"
+          />
           <p class="pl-1">
             {{ node.name }}
           </p>

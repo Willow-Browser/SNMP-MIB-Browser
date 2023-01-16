@@ -44,12 +44,33 @@ func createBaseOids() []Oid {
 	system.Type = ObjectIdentity
 
 	sysDescr := CreateNewOid("sysDescr", ".1.3.6.1.2.1.1.1", "SNMPv2-MIB")
+	sysDescr.Access = "ReadOnly"
+	sysDescr.Type = ObjectType
+
 	sysObjectID := CreateNewOid("sysObjectID", ".1.3.6.1.2.1.1.2", "SNMPv2-MIB")
+	sysObjectID.Access = "ReadOnly"
+	sysObjectID.Type = ObjectType
+
 	sysUpTime := CreateNewOid("sysUpTime", ".1.3.6.1.2.1.1.3", "SNMPv2-MIB")
+	sysUpTime.Access = "ReadOnly"
+	sysUpTime.Type = ObjectType
+
 	sysContact := CreateNewOid("sysContact", ".1.3.6.1.2.1.1.4", "SNMPv2-MIB")
+	sysContact.Access = "ReadWrite"
+	sysContact.Type = ObjectType
+
 	sysName := CreateNewOid("sysName", ".1.3.6.1.2.1.1.5", "SNMPv2-MIB")
+	sysName.Access = "ReadWrite"
+	sysName.Type = ObjectType
+
 	sysLocation := CreateNewOid("sysLocation", ".1.3.6.1.2.1.1.6", "SNMPv2-MIB")
+	sysLocation.Access = "ReadWrite"
+	sysLocation.Type = ObjectType
+
 	sysServices := CreateNewOid("sysServices", ".1.3.6.1.2.1.1.7", "SNMPv2-MIB")
+	sysServices.Access = "ReadOnly"
+	sysServices.Type = ObjectType
+
 	experimental := CreateNewOid("experimental", ".1.3.6.1.3", "SNMPv2-SMI")
 	experimental.Type = ObjectIdentity
 

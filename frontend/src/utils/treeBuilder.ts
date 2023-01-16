@@ -5,6 +5,7 @@ export interface OidTree {
   name: string;
   oid: string;
   type: string;
+  access: string;
   children?: Array<OidTree>;
 }
 
@@ -16,7 +17,7 @@ export class TreeSorter {
   }
 
   createOidTree(): OidTree {
-    const tree: OidTree = { name: "", oid: "", type: "" };
+    const tree: OidTree = { name: "", oid: "", type: "", access: "" };
     let i: number;
 
     for (i = 0; i < this.#newOids.length; i++) {
@@ -51,6 +52,7 @@ export class TreeSorter {
       const newChildNode: OidTree = {
         name: oid.name,
         oid: oid.oid,
+        access: oid.access,
         type: oid.type,
       };
 
