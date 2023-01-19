@@ -3,9 +3,10 @@ package oidstorage
 type LoadedOids struct {
 	oids       []Oid
 	loadedMibs []string
+	db         *DB
 }
 
-func NewLoadedOids() *LoadedOids {
+func NewLoadedOids(db *DB) *LoadedOids {
 	// TODO : load oids from data cache
 
 	loadedMibs := []string{"SNMPv2-SMI"}
@@ -13,6 +14,7 @@ func NewLoadedOids() *LoadedOids {
 	return &LoadedOids{
 		oids:       createBaseOids(),
 		loadedMibs: loadedMibs,
+		db:         db,
 	}
 }
 

@@ -6,6 +6,7 @@ import Folder from "~icons/mdi/folder";
 import Leaf from "~icons/mdi/leaf";
 import Pen from "~icons/mdi/fountain-pen-tip";
 import LightningBolt from "~icons/mdi/lightning-bolt";
+import PlusCircle from "~icons/mdi/plus-circle-outline";
 import FolderOutline from "~icons/mdi/folder-outline";
 import { OidTree } from "../../utils/treeBuilder";
 
@@ -70,6 +71,10 @@ function isReadWrite(): boolean {
   return props.node.access === "ReadWrite";
 }
 
+function isReadCreate(): boolean {
+  return props.node.access === "ReadCreate";
+}
+
 function isNotificationType(): boolean {
   return props.node.type === "NotificationType";
 }
@@ -86,7 +91,7 @@ function printType() {
         :style="indent"
         :class="cursorClass()"
         class="flex text-gray-900"
-        @click="printType()"
+        @dblclick="printType()"
       >
         <PlusBoxOutline
           v-if="hasChildren() && !showChildren"
@@ -114,6 +119,12 @@ function printType() {
           <Pen
             v-else-if="isObjectType() && isReadWrite()"
             class="pen"
+            height="20"
+            width="20"
+          />
+          <PlusCircle
+            v-else-if="isObjectType() && isReadCreate()"
+            class="plus"
             height="20"
             width="20"
           />

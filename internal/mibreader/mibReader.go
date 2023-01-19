@@ -184,14 +184,7 @@ func (m *MibReader) readNewOids(module *parser.Module) {
 			parentOid.AddChildren(&newOidStore)
 			m.newOids = append(m.newOids, newOidStore)
 		} else if newOid.ObjectType != nil {
-			oidNum := appendOidNumber(parentOid.OID, *newOid.Oid.SubIdentifiers[1].Number)
-			newOidStore := oidstorage.CreateNewOid(newOid.Name.String(), oidNum, mibName)
-			newOidStore.Description = newOid.ObjectType.Description
-			newOidStore.Status = newOid.ObjectType.Status.ToSmi().String()
-			newOidStore.Type = oidstorage.ObjectType
-			newOidStore.Access = newOid.ObjectType.Access.ToSmi().String()
-			parentOid.AddChildren(&newOidStore)
-			m.newOids = append(m.newOids, newOidStore)
+			m.parseObjectType(&newOid, parentOid, mibName)
 		} else if newOid.ModuleCompliance != nil {
 			oidNum := appendOidNumber(parentOid.OID, *newOid.Oid.SubIdentifiers[1].Number)
 			newOidStore := oidstorage.CreateNewOid(newOid.Name.String(), oidNum, mibName)
@@ -241,6 +234,31 @@ func (m *MibReader) findParentInNewOids(parentName string) *oidstorage.Oid {
 	}
 
 	return parentOid
+}
+
+func (m *MibReader) parseObjectType(node *parser.Node, parentOid *oidstorage.Oid, mibName string) {
+	oidNum := appendOidNumber(parentOid.OID, *node.Oid.SubIdentifiers[1].Number)
+	newOidStore := oidstorage.CreateNewOid(node.Name.String(), oidNum, mibName)
+	newOidStore.Description = node.ObjectType.Description
+	newOidStore.Status = node.ObjectType.Status.ToSmi().String()
+	newOidStore.Type = oidstorage.ObjectType
+	newOidStore.Access = node.ObjectType.Access.ToSmi().String()
+
+	if node.ObjectType.Syntax.Sequence != nil {
+		newOidStore.Syntax = fmt.Sprintf("SEQUENCE OF %s", node.ObjectType.Syntax.Sequence.String())
+	} else if node.ObjectType.Index != nil {
+		newOidStore.Syntax = node.ObjectType.Syntax.Type.Name.String()
+		var indexes []string
+		for _, index := range node.ObjectType.Index {
+			indexes = append(indexes, index.Name.String())
+		}
+		newOidStore.Indexes = indexes
+	} else {
+		newOidStore.Syntax = node.ObjectType.Syntax.Type.Name.String()
+	}
+
+	parentOid.AddChildren(&newOidStore)
+	m.newOids = append(m.newOids, newOidStore)
 }
 
 // TODO : some way to overwrite duplicates. Assuming the mib is an updated mib

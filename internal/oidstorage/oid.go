@@ -1,6 +1,7 @@
 package oidstorage
 
 type OidType string
+type OidObjectType string
 
 const (
 	ObjectIdentity    OidType = "ObjectIdentity"
@@ -12,17 +13,24 @@ const (
 	NotificationGroup OidType = "NotificationGroup"
 )
 
+const (
+	Scalar OidObjectType = "Scalar"
+	Table  OidObjectType = "Table"
+	Entry  OidObjectType = "Entry"
+)
+
 type Oid struct {
-	Name        string  `json:"name"`
-	OID         string  `json:"oid"`
-	Mib         string  `json:"mib"`
-	Syntax      string  `json:"syntax"`
-	Access      string  `json:"access"`
-	Status      string  `json:"status"`
-	DefVal      string  `json:"defVal"`
-	Indexes     string  `json:"indexes"`
-	Description string  `json:"description"`
-	Type        OidType `json:"type"`
+	Name        string   `json:"name"`
+	OID         string   `json:"oid"`
+	Mib         string   `json:"mib"`
+	Syntax      string   `json:"syntax"`
+	Access      string   `json:"access"`
+	Status      string   `json:"status"`
+	DefVal      string   `json:"defVal"`
+	Indexes     []string `json:"indexes"`
+	Description string   `json:"description"`
+	IsIndex     bool     `json:"IsIndex"`
+	Type        OidType  `json:"type"`
 	children    []*Oid
 }
 

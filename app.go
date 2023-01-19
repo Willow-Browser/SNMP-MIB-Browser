@@ -14,14 +14,17 @@ import (
 type App struct {
 	ctx        context.Context
 	loadedOids *oidstorage.LoadedOids
+	db         *oidstorage.DB
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
-	loadedOids := oidstorage.NewLoadedOids()
+	db := oidstorage.InitializeDb()
+	loadedOids := oidstorage.NewLoadedOids(db)
 
 	return &App{
 		loadedOids: loadedOids,
+		db:         db,
 	}
 }
 
@@ -29,6 +32,10 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+func (a *App) shutdown(ctx context.Context) {
+	a.db.CloseDb()
 }
 
 func (a *App) ParseMib() {

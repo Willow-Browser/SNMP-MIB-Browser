@@ -8,8 +8,9 @@ export namespace oidstorage {
 	    access: string;
 	    status: string;
 	    defVal: string;
-	    indexes: string;
+	    indexes: string[];
 	    description: string;
+	    IsIndex: boolean;
 	    type: string;
 	
 	    static createFrom(source: any = {}) {
@@ -27,6 +28,7 @@ export namespace oidstorage {
 	        this.defVal = source["defVal"];
 	        this.indexes = source["indexes"];
 	        this.description = source["description"];
+	        this.IsIndex = source["IsIndex"];
 	        this.type = source["type"];
 	    }
 	}
