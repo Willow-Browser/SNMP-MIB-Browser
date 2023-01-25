@@ -11,6 +11,8 @@ import (
 	"github.com/willowbrowser/snmpmibbrowser/internal/oidstorage"
 )
 
+var db = oidstorage.InitializeDb()
+
 func TestGetBasePath(t *testing.T) {
 	parameters := []struct {
 		testName string
@@ -22,7 +24,7 @@ func TestGetBasePath(t *testing.T) {
 
 	for _, parmeter := range parameters {
 		t.Run(fmt.Sprintf("Testing: %s", parmeter.testName), func(t *testing.T) {
-			l := oidstorage.NewLoadedOids()
+			l := oidstorage.NewLoadedOids(db)
 			mibReader := NewMibReader(l)
 			actual := mibReader.getBasePathOfMib(parmeter.filePath)
 			assert.Equal(t, parmeter.expected, actual)

@@ -35,7 +35,7 @@ func TestReadMibWithStandardImports(t *testing.T) {
 
 func TestReadMibWithMultipleImports(t *testing.T) {
 	// TODO : actually complete this test
-	m := NewMibReader(oidstorage.NewLoadedOids())
+	m := NewMibReader(oidstorage.NewLoadedOids(db))
 	m.ReadMib(fmt.Sprintf("..%s..%stest%sCISCO-QOS-PIB-MIB.txt", string(os.PathSeparator), string(os.PathSeparator), string(os.PathSeparator)))
 }
 
@@ -87,7 +87,7 @@ func TestScalarOids(t *testing.T) {
 
 	for _, subtest := range subTests {
 		t.Run(subtest.name, func(t *testing.T) {
-			l := oidstorage.NewLoadedOids()
+			l := oidstorage.NewLoadedOids(db)
 			m := NewMibReader(l)
 
 			expected := oidstorage.CreateNewOid(subtest.oidName, subtest.oid, subtest.mib)
@@ -173,7 +173,7 @@ func TestParseTableOid(t *testing.T) {
 
 	for _, subtest := range subTests {
 		t.Run(subtest.name, func(t *testing.T) {
-			l := oidstorage.NewLoadedOids()
+			l := oidstorage.NewLoadedOids(db)
 			m := NewMibReader(l)
 
 			expected := oidstorage.CreateNewOid(subtest.oidName, subtest.oid, subtest.mib)

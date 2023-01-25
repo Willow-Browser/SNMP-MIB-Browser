@@ -7,10 +7,10 @@ export namespace oidstorage {
 	    syntax: string;
 	    access: string;
 	    status: string;
-	    defVal: string;
+	    def_val: string;
 	    indexes: string[];
 	    description: string;
-	    IsIndex: boolean;
+	    is_index: boolean;
 	    type: string;
 	
 	    static createFrom(source: any = {}) {
@@ -25,10 +25,10 @@ export namespace oidstorage {
 	        this.syntax = source["syntax"];
 	        this.access = source["access"];
 	        this.status = source["status"];
-	        this.defVal = source["defVal"];
+	        this.def_val = source["def_val"];
 	        this.indexes = source["indexes"];
 	        this.description = source["description"];
-	        this.IsIndex = source["IsIndex"];
+	        this.is_index = source["is_index"];
 	        this.type = source["type"];
 	    }
 	}

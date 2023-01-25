@@ -26,10 +26,10 @@ type Oid struct {
 	Syntax      string   `json:"syntax"`
 	Access      string   `json:"access"`
 	Status      string   `json:"status"`
-	DefVal      string   `json:"defVal"`
+	DefVal      string   `json:"def_val"`
 	Indexes     []string `json:"indexes"`
 	Description string   `json:"description"`
-	IsIndex     bool     `json:"IsIndex"`
+	IsIndex     bool     `json:"is_index"`
 	Type        OidType  `json:"type"`
 	children    []*Oid
 }
