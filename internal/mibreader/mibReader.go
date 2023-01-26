@@ -15,13 +15,12 @@ type MibReader struct {
 	types      []parser.Type
 	loadedOids *oidstorage.LoadedOids
 	newOids    []oidstorage.Oid
+	newIndices []string
 }
 
 func NewMibReader(loadedOids *oidstorage.LoadedOids) *MibReader {
 	return &MibReader{
-		types:      []parser.Type{},
 		loadedOids: loadedOids,
-		newOids:    []oidstorage.Oid{},
 	}
 }
 
@@ -74,6 +73,8 @@ func (m *MibReader) ReadMib(fileName string) {
 	m.readNewOids(module)
 
 	m.loadedOids.AddNewOids(m.newOids)
+
+	m.loadedOids.MarkIndexOids(m.newIndices)
 
 	// TODO : if the imports are not located in the same folder as the mib, need to throw an error
 	// by emitting an event for Vue to deal with
@@ -155,7 +156,6 @@ func (m *MibReader) addIdentity(moduleIdentity *parser.ModuleIdentity, mibName s
 func (m *MibReader) readNewOids(module *parser.Module) {
 	// TODO : fix this up
 	mibName := module.Name.String()
-	newStoredOid := oidstorage.CreateNewOid("", "", "")
 
 	for _, newOid := range module.Body.Nodes {
 		parentName := newOid.Oid.SubIdentifiers[0].Name.String()
@@ -171,8 +171,8 @@ func (m *MibReader) readNewOids(module *parser.Module) {
 
 		if newOid.ObjectIdentifier {
 			oidNum := appendOidNumber(parentOid.OID, *newOid.Oid.SubIdentifiers[1].Number)
-			newStoredOid.Name = newOid.Name.String()
 			newOidStore := oidstorage.CreateNewOid(newOid.Name.String(), oidNum, mibName)
+			newOidStore.Type = oidstorage.ObjectIdentity
 			m.newOids = append(m.newOids, newOidStore)
 
 		} else if newOid.ObjectIdentity != nil {
@@ -184,14 +184,7 @@ func (m *MibReader) readNewOids(module *parser.Module) {
 			parentOid.AddChildren(&newOidStore)
 			m.newOids = append(m.newOids, newOidStore)
 		} else if newOid.ObjectType != nil {
-			oidNum := appendOidNumber(parentOid.OID, *newOid.Oid.SubIdentifiers[1].Number)
-			newOidStore := oidstorage.CreateNewOid(newOid.Name.String(), oidNum, mibName)
-			newOidStore.Description = newOid.ObjectType.Description
-			newOidStore.Status = newOid.ObjectType.Status.ToSmi().String()
-			newOidStore.Type = oidstorage.ObjectType
-			newOidStore.Access = newOid.ObjectType.Access.ToSmi().String()
-			parentOid.AddChildren(&newOidStore)
-			m.newOids = append(m.newOids, newOidStore)
+			m.parseObjectType(&newOid, parentOid, mibName)
 		} else if newOid.ModuleCompliance != nil {
 			oidNum := appendOidNumber(parentOid.OID, *newOid.Oid.SubIdentifiers[1].Number)
 			newOidStore := oidstorage.CreateNewOid(newOid.Name.String(), oidNum, mibName)
@@ -241,6 +234,38 @@ func (m *MibReader) findParentInNewOids(parentName string) *oidstorage.Oid {
 	}
 
 	return parentOid
+}
+
+func (m *MibReader) parseObjectType(node *parser.Node, parentOid *oidstorage.Oid, mibName string) {
+	oidNum := appendOidNumber(parentOid.OID, *node.Oid.SubIdentifiers[1].Number)
+	newOidStore := oidstorage.CreateNewOid(node.Name.String(), oidNum, mibName)
+	newOidStore.Description = node.ObjectType.Description
+	newOidStore.Status = node.ObjectType.Status.ToSmi().String()
+	newOidStore.Type = oidstorage.ObjectType
+	newOidStore.Access = string(node.ObjectType.Access)
+
+	if node.ObjectType.Syntax.Sequence != nil {
+		newOidStore.Syntax = fmt.Sprintf("SEQUENCE OF %s", node.ObjectType.Syntax.Sequence.String())
+	} else if node.ObjectType.Index != nil {
+		newOidStore.Syntax = node.ObjectType.Syntax.Type.Name.String()
+		var indexes []string
+		for _, index := range node.ObjectType.Index {
+			indexes = append(indexes, index.Name.String())
+		}
+		newOidStore.Indexes = indexes
+		newOidStore.IsRow = true
+
+		for _, index := range indexes {
+			if !utils.Contains(m.newIndices, index) {
+				m.newIndices = append(m.newIndices, index)
+			}
+		}
+	} else {
+		newOidStore.Syntax = node.ObjectType.Syntax.Type.Name.String()
+	}
+
+	parentOid.AddChildren(&newOidStore)
+	m.newOids = append(m.newOids, newOidStore)
 }
 
 // TODO : some way to overwrite duplicates. Assuming the mib is an updated mib

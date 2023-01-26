@@ -25,11 +25,11 @@ func main() {
 	FileMenu.AddText("&Open", keys.CmdOrCtrl("o"), func(cd *menu.CallbackData) {
 		file, err := runtime.OpenFileDialog(app.ctx, runtime.OpenDialogOptions{
 			DefaultDirectory: "./",
-			Title:            "Select File",
+			Title:            "Select MIB File",
 			Filters: []runtime.FileFilter{
 				{
-					DisplayName: "Text (*.txt)",
-					Pattern:     "*.txt",
+					DisplayName: "All Files (*.*)",
+					Pattern:     "*",
 				},
 			},
 		})
@@ -51,12 +51,13 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:     "test-wails",
-		Width:     1280,
-		Height:    780,
-		Assets:    assets,
-		OnStartup: app.startup,
-		Menu:      AppMenu,
+		Title:      "test-wails",
+		Width:      1280,
+		Height:     780,
+		Assets:     assets,
+		OnStartup:  app.startup,
+		OnShutdown: app.shutdown,
+		Menu:       AppMenu,
 		Bind: []interface{}{
 			app,
 		},

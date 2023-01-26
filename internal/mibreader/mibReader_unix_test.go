@@ -22,7 +22,7 @@ func TestGetBasePath(t *testing.T) {
 
 	for _, parmeter := range parameters {
 		t.Run(fmt.Sprintf("Testing: %s", parmeter.testName), func(t *testing.T) {
-			l := oidstorage.NewLoadedOids()
+			l := oidstorage.NewLoadedOids(db)
 			mibReader := NewMibReader(l)
 			actual := mibReader.getBasePathOfMib(parmeter.filePath)
 			assert.Equal(t, parmeter.expected, actual)

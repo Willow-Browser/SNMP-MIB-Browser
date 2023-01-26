@@ -2,16 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch file",
-      "type": "go",
-      "request": "launch",
-      "mode": "debug",
-      "program": "${file}",
-      "args": [
-        "C:\\Users\\gabfi\\source\\repos\\SNMP-MIB-Browser\\MIBs\\CISCO-FLASH-MIB.txt"
-      ]
-    },
-    {
       "name": "Wails: Production test-wails",
       "type": "go",
       "request": "launch",
