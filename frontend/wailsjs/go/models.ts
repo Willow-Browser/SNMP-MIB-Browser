@@ -11,6 +11,7 @@ export namespace oidstorage {
 	    indexes: string[];
 	    description: string;
 	    is_index: boolean;
+	    is_row: boolean;
 	    type: string;
 	
 	    static createFrom(source: any = {}) {
@@ -29,6 +30,7 @@ export namespace oidstorage {
 	        this.indexes = source["indexes"];
 	        this.description = source["description"];
 	        this.is_index = source["is_index"];
+	        this.is_row = source["is_row"];
 	        this.type = source["type"];
 	    }
 	}

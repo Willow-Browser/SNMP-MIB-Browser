@@ -30,6 +30,7 @@ type Oid struct {
 	Indexes     []string `json:"indexes"`
 	Description string   `json:"description"`
 	IsIndex     bool     `json:"is_index"`
+	IsRow       bool     `json:"is_row"`
 	Type        OidType  `json:"type"`
 	children    []*Oid
 }

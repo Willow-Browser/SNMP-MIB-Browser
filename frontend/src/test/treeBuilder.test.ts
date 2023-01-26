@@ -7,13 +7,13 @@ describe("class test suite", () => {
     const oids = Array<oidstorage.Oid>();
 
     const firstOid = new oidstorage.Oid(
-      '{"name": "iso","oid": ".1","type": "ObjectIdentity","access": ""}'
+      '{"name": "iso","oid": ".1","type": "ObjectIdentity","access": "","is_index": false,"syntax": "","is_row": false}'
     );
     const secondOid = new oidstorage.Oid(
-      '{"name": "org","oid": ".1.3","type": "ObjectIdentity","access": ""}'
+      '{"name": "org","oid": ".1.3","type": "ObjectIdentity","access": "","is_index": false,"syntax": "","is_row": false}'
     );
     const thirdOid = new oidstorage.Oid(
-      '{"name": "dod","oid": ".1.3.6","type": "ModuleIdentity","access": ""}'
+      '{"name": "dod","oid": ".1.3.6","type": "ModuleIdentity","access": "","is_index": false,"syntax": "","is_row": false}'
     );
 
     oids.push(firstOid, thirdOid, secondOid);
@@ -27,18 +27,27 @@ describe("class test suite", () => {
       oid: ".1",
       type: "ObjectIdentity",
       access: "",
+      syntax: "",
+      is_index: false,
+      is_row: false,
       children: [
         {
           name: "org",
           oid: ".1.3",
           type: "ObjectIdentity",
           access: "",
+          syntax: "",
+          is_index: false,
+          is_row: false,
           children: [
             {
               name: "dod",
               oid: ".1.3.6",
               type: "ModuleIdentity",
               access: "",
+              syntax: "",
+              is_index: false,
+              is_row: false,
             },
           ],
         },
@@ -52,22 +61,22 @@ describe("class test suite", () => {
     const oids = Array<oidstorage.Oid>();
 
     const firstOid = new oidstorage.Oid(
-      '{"name": "iso","oid": ".1","type": "ObjectIdentity","access": ""}'
+      '{"name": "iso","oid": ".1","type": "ObjectIdentity","access": "","is_index": false,"syntax": "","is_row": false}'
     );
     const secondOid = new oidstorage.Oid(
-      '{"name": "org","oid": ".1.3","type": "ObjectIdentity","access": ""}'
+      '{"name": "org","oid": ".1.3","type": "ObjectIdentity","access": "","is_index": false,"syntax": "","is_row": false}'
     );
     const thirdOid = new oidstorage.Oid(
-      '{"name": "dod","oid": ".1.3.6","type": "ModuleIdentity","access": ""}'
+      '{"name": "dod","oid": ".1.3.6","type": "ModuleIdentity","access": "","is_index": false,"syntax": "","is_row": false}'
     );
     const thirdOidChild1 = new oidstorage.Oid(
-      '{"name": "thirdOidChild1","oid": ".1.3.6.1","type": "ObjectType","access": "ReadOnly"}'
+      '{"name": "thirdOidChild1","oid": ".1.3.6.1","type": "ObjectType","access": "read-only","is_index": false,"syntax": "","is_row": false}'
     );
     const thirdOidChild2 = new oidstorage.Oid(
-      '{"name": "thirdOidChild2","oid": ".1.3.6.2","type": "ObjectType","access": "ReadOnly"}'
+      '{"name": "thirdOidChild2","oid": ".1.3.6.2","type": "ObjectType","access": "read-only","is_index": false,"syntax": "","is_row": false}'
     );
     const thirdOidChild3 = new oidstorage.Oid(
-      '{"name": "thirdOidChild3","oid": ".1.3.6.3","type": "NotificationType","access": ""}'
+      '{"name": "thirdOidChild3","oid": ".1.3.6.3","type": "NotificationType","access": "","is_index": false,"syntax": "","is_row": false}'
     );
 
     oids.push(
@@ -88,36 +97,54 @@ describe("class test suite", () => {
       oid: ".1",
       type: "ObjectIdentity",
       access: "",
+      syntax: "",
+      is_index: false,
+      is_row: false,
       children: [
         {
           name: "org",
           oid: ".1.3",
           type: "ObjectIdentity",
           access: "",
+          syntax: "",
+          is_index: false,
+          is_row: false,
           children: [
             {
               name: "dod",
               oid: ".1.3.6",
               type: "ModuleIdentity",
               access: "",
+              syntax: "",
+              is_index: false,
+              is_row: false,
               children: [
                 {
                   name: "thirdOidChild1",
                   oid: ".1.3.6.1",
                   type: "ObjectType",
-                  access: "ReadOnly",
+                  access: "read-only",
+                  syntax: "",
+                  is_index: false,
+                  is_row: false,
                 },
                 {
                   name: "thirdOidChild2",
                   oid: ".1.3.6.2",
                   type: "ObjectType",
-                  access: "ReadOnly",
+                  access: "read-only",
+                  syntax: "",
+                  is_index: false,
+                  is_row: false,
                 },
                 {
                   name: "thirdOidChild3",
                   oid: ".1.3.6.3",
                   type: "NotificationType",
                   access: "",
+                  syntax: "",
+                  is_index: false,
+                  is_row: false,
                 },
               ],
             },

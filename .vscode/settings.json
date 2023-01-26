@@ -4,7 +4,8 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "files.associations": {
-        "*.css": "tailwindcss"
+        "*.css": "tailwindcss",
+        "**/MIBs/*": "mib"
     },
     "editor.quickSuggestions": {
       "other": "on",

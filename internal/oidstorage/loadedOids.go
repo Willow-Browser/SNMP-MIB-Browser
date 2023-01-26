@@ -46,31 +46,31 @@ func createBaseOids() []Oid {
 	system.Type = ObjectIdentity
 
 	sysDescr := CreateNewOid("sysDescr", ".1.3.6.1.2.1.1.1", "SNMPv2-MIB")
-	sysDescr.Access = "ReadOnly"
+	sysDescr.Access = "read-only"
 	sysDescr.Type = ObjectType
 
 	sysObjectID := CreateNewOid("sysObjectID", ".1.3.6.1.2.1.1.2", "SNMPv2-MIB")
-	sysObjectID.Access = "ReadOnly"
+	sysObjectID.Access = "read-only"
 	sysObjectID.Type = ObjectType
 
 	sysUpTime := CreateNewOid("sysUpTime", ".1.3.6.1.2.1.1.3", "SNMPv2-MIB")
-	sysUpTime.Access = "ReadOnly"
+	sysUpTime.Access = "read-only"
 	sysUpTime.Type = ObjectType
 
 	sysContact := CreateNewOid("sysContact", ".1.3.6.1.2.1.1.4", "SNMPv2-MIB")
-	sysContact.Access = "ReadWrite"
+	sysContact.Access = "read-write"
 	sysContact.Type = ObjectType
 
 	sysName := CreateNewOid("sysName", ".1.3.6.1.2.1.1.5", "SNMPv2-MIB")
-	sysName.Access = "ReadWrite"
+	sysName.Access = "read-write"
 	sysName.Type = ObjectType
 
 	sysLocation := CreateNewOid("sysLocation", ".1.3.6.1.2.1.1.6", "SNMPv2-MIB")
-	sysLocation.Access = "ReadWrite"
+	sysLocation.Access = "read-write"
 	sysLocation.Type = ObjectType
 
 	sysServices := CreateNewOid("sysServices", ".1.3.6.1.2.1.1.7", "SNMPv2-MIB")
-	sysServices.Access = "ReadOnly"
+	sysServices.Access = "read-only"
 	sysServices.Type = ObjectType
 
 	experimental := CreateNewOid("experimental", ".1.3.6.1.3", "SNMPv2-SMI")
@@ -187,6 +187,24 @@ func (l *LoadedOids) AddNewOids(newOids []Oid) {
 
 	l.oids = append(l.oids, newLoadedOids...)
 	l.loadedMibs = append(l.loadedMibs, newMibs...)
+}
+
+func (l *LoadedOids) MarkIndexOids(newIndices []string) {
+	for _, index := range newIndices {
+		oid := l.findOidByName(index)
+		if oid != nil {
+			oid.IsIndex = true
+		}
+	}
+}
+
+func (l *LoadedOids) findOidByName(oidName string) *Oid {
+	for i, oid := range l.oids {
+		if oid.Name == oidName {
+			return &l.oids[i] // have to do this weird hack since we range won't give us a reference
+		}
+	}
+	return nil
 }
 
 func (l *LoadedOids) GetLoadedOids() []Oid {

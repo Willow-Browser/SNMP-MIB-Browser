@@ -11,6 +11,8 @@ import (
 	"github.com/willowbrowser/snmpmibbrowser/internal/oidstorage"
 )
 
+var db = oidstorage.InitializeDb()
+
 func TestAppendOidNumbers(t *testing.T) {
 	parameters := []struct {
 		oidNum    string
@@ -61,7 +63,7 @@ func TestScalarOids(t *testing.T) {
 			eStatus:     "Current",
 			status:      parser.StatusCurrent,
 			description: "test description",
-			eAccess:     "ReadOnly",
+			eAccess:     "read-only",
 			access:      parser.AccessReadOnly,
 			oid:         ".1.3.6",
 			parentOid:   ".1.3",
@@ -75,7 +77,7 @@ func TestScalarOids(t *testing.T) {
 			eStatus:     "Current",
 			status:      parser.StatusCurrent,
 			description: "test description",
-			eAccess:     "ReadWrite",
+			eAccess:     "read-write",
 			access:      parser.AccessReadWrite,
 			oid:         ".1.3.6.5.1.7",
 			parentOid:   ".1.3.6.5.1",
@@ -161,7 +163,7 @@ func TestParseTableOid(t *testing.T) {
 			eStatus:     "Current",
 			status:      parser.StatusCurrent,
 			description: "test description",
-			eAccess:     "NotAccessible",
+			eAccess:     "not-accessible",
 			access:      parser.AccessNotAccessible,
 			oid:         ".1.3.6",
 			parentOid:   ".1.3",

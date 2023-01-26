@@ -11,8 +11,6 @@ import (
 	"github.com/willowbrowser/snmpmibbrowser/internal/oidstorage"
 )
 
-var db = oidstorage.InitializeDb()
-
 func TestGetBasePath(t *testing.T) {
 	parameters := []struct {
 		testName string
