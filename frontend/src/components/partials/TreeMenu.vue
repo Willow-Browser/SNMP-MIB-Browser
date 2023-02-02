@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import PlusBoxOutline from "~icons/mdi/plus-box-outline";
 import MinusBoxOutline from "~icons/mdi/minus-box-outline";
-import Folder from "~icons/mdi/folder";
+// import Folder from "~icons/mdi/folder";
 import Key from "~icons/mdi/key-variant";
 import Leaf from "~icons/mdi/leaf";
 import Pen from "~icons/mdi/fountain-pen-tip";
@@ -70,7 +70,10 @@ function isIndex(): boolean {
 }
 
 function isTable(): boolean {
-  return props.node.syntax.includes("SEQUENCE OF");
+  if (props.node.syntax) {
+    return props.node.syntax.includes("SEQUENCE OF");
+  }
+  return false;
 }
 
 function isRow(): boolean {
@@ -100,7 +103,7 @@ function printType() {
 
 <template>
   <div>
-    <div class="pb-1 mb-1" @click="toggleChildren">
+    <div class="mb-1 pb-1" @click="toggleChildren">
       <div
         :style="indent"
         :class="cursorClass()"

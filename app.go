@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"math"
 
 	"github.com/alecthomas/repr"
 	"github.com/sleepinggenius2/gosmi/parser"
@@ -32,6 +34,15 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	runtime.EventsOn(a.ctx, "selectedAgent", func(optionalData ...interface{}) {
+		data := optionalData[0]
+
+		idFloat := data.(map[string]interface{})["id"].(float64)
+
+		idInt := int64(math.Round(idFloat))
+
+		fmt.Printf("%d\n", idInt)
+	})
 }
 
 func (a *App) shutdown(ctx context.Context) {
