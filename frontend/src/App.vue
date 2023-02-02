@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import HelloWorld from "@/components/HelloWorld.vue";
 import OidTree from "@/components/OidTree.vue";
+import TopBar from "@/components/TopBar.vue";
 </script>
 
 <template>
-  <!-- <DiscordSideBar /> -->
+  <TopBar />
   <OidTree />
   <div class="overflow-hidden">
     <div class="logo-box">

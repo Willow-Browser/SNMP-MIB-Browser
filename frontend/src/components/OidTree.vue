@@ -23,15 +23,15 @@ EventsOn("mibsLoaded", ReloadMibTree);
 
 <template>
   <div
-    class="fixed top-0 left-0 w-1/3 h-screen flex flex-col bg-gray-100 shadow-lg"
+    class="fixed top-16 left-0 flex h-screen w-1/3 flex-col bg-gray-100 shadow-lg"
   >
     <div
       id="title"
-      class="bg-gradient-to-r from-indigo-400 to-white h-14 text-left flex"
+      class="flex h-14 bg-gradient-to-r from-indigo-400 to-white text-left"
     >
-      <h2 class="text-2xl text-black flex items-center">SNMP Oids</h2>
+      <h2 class="flex items-center text-2xl text-black">SNMP Oids</h2>
     </div>
-    <div class="flex justify-start text-left overflow-auto scrollbar">
+    <div class="scrollbar flex justify-start overflow-auto text-left">
       <TreeMenu class="" :node="otherOidTree.oidTree" :depth="0"></TreeMenu>
     </div>
   </div>
