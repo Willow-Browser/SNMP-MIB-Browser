@@ -7,12 +7,8 @@ import {
 } from "@headlessui/vue";
 import Check from "~icons/mdi/check";
 import MenuSwap from "~icons/mdi/menu-swap";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { EventsEmit } from "../../wailsjs/runtime/runtime";
-
-function EmitThing(value: unknown) {
-  EventsEmit("selectedAgent", value);
-}
 
 const people = [
   { id: 1, name: "Agent 1", unavailable: false },
@@ -22,6 +18,10 @@ const people = [
   { id: 5, name: "Agent 5", unavailable: false },
 ];
 const selectedPerson = ref(people[0]);
+
+watch(selectedPerson, () => {
+  EventsEmit("selectedAgent", selectedPerson.value);
+});
 </script>
 
 <template>
@@ -31,12 +31,7 @@ const selectedPerson = ref(people[0]);
     >
       <p class="px-2 font-semibold text-gray-800">Agent:</p>
       <div class="w-72">
-        <Listbox
-          :model-value="selectedPerson"
-          by="id"
-          as="div"
-          @update:model-value="(value) => EmitThing(value)"
-        >
+        <Listbox v-model="selectedPerson">
           <div class="relative mt-1">
             <ListboxButton
               class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
@@ -70,7 +65,6 @@ const selectedPerson = ref(people[0]);
                   v-slot="{ active, selected }"
                   :value="person"
                   :disabled="person.unavailable"
-                  as="template"
                 >
                   <li
                     :class="[
