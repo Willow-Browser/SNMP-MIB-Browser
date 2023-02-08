@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import AgentSelection from "@/components/partials/AgentSelection.vue";
 import AgentModifyPanel from "./partials/AgentModifyPanel.vue";
-
-const openModal = ref(false);
 </script>
 
 <template>
@@ -12,14 +9,14 @@ const openModal = ref(false);
       class="flex h-16 w-full items-center justify-between border-b md:justify-start lg:border-none"
     >
       <AgentSelection />
-      <button
+      <label
         type="button"
-        class="mx-3 inline-block rounded-md bg-slate-800 py-2 px-4 text-base font-medium text-gray-50 shadow-sm"
-        @click="openModal = true"
+        class="mx-3 inline-block cursor-pointer rounded-md bg-slate-800 py-2 px-4 text-base font-medium text-gray-50 shadow-sm"
+        for="agent-modify-modal"
       >
         Hello
-      </button>
-      <AgentModifyPanel :open-modal="openModal" />
+      </label>
+      <AgentModifyPanel />
     </div>
   </div>
 </template>

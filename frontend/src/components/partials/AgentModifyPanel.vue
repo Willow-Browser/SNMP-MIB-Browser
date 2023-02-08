@@ -10,26 +10,24 @@ import {
 import WindowClose from "~icons/mdi/window-close";
 import LinkVariant from "~icons/mdi/link-variant";
 
-const props = defineProps<{
-  openModal: boolean;
-}>();
-
-watch(
-  () => props.openModal,
-  (newValue, oldValue) => {
-    console.log("child watcher with new value", newValue);
-    // if (newValue) {}
-  }
-);
-
 function submit(payload: MouseEvent) {
   console.log(payload);
+}
+
+function onClick(_e: Event) {
+  open.value = !open.value;
 }
 
 const open = ref(true);
 </script>
 
 <template>
+  <input
+    id="agent-modify-modal"
+    type="checkbox"
+    class="fixed h-0 w-0 appearance-none opacity-0"
+    @change="onClick"
+  />
   <div class="text-left text-black">
     <TransitionRoot as="template" :show="open">
       <Dialog as="div" class="relative z-10" @close="open = false">
