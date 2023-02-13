@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/alecthomas/repr v0.0.0-20210301060118-828286944d6a
+	github.com/gosnmp/gosnmp v1.35.0
 	github.com/sleepinggenius2/gosmi v0.4.4
 	github.com/stretchr/testify v1.8.1
 	github.com/wailsapp/wails/v2 v2.3.1

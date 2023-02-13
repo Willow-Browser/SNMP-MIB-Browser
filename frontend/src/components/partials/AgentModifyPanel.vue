@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Divider from "./Divider.vue";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -13,9 +13,10 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 import WindowClose from "~icons/mdi/window-close";
-import LinkVariant from "~icons/mdi/link-variant";
+// import LinkVariant from "~icons/mdi/link-variant";
 import MenuSwap from "~icons/mdi/menu-swap";
 import Check from "~icons/mdi/check";
+import { EventsEmit } from "../../../wailsjs/runtime/runtime";
 
 // TODO : create a component to split all of the dropdowns up
 
@@ -26,6 +27,7 @@ const agentAddress = ref(DEFAULT_AGENT_ADDRESS);
 const agentPort = ref(DEFAULT_AGENT_PORT);
 const readCommunity = ref("");
 const writeCommunity = ref("");
+const usmUserName = ref("");
 const authKey = ref("");
 const privKey = ref("");
 
@@ -45,9 +47,23 @@ const selectedAuthType = ref(authTypes[0]);
 
 function submit(payload: MouseEvent) {
   console.log(payload);
+
+  const obj = {
+    agentAddress: agentAddress.value,
+    agentPort: agentPort.value,
+    agentType: selectedAgentType.value,
+    readCommunity: readCommunity.value,
+    writeCommunity: writeCommunity.value,
+    authType: selectedAuthType.value,
+    usmUserName: usmUserName.value,
+    authKey: authKey.value,
+    privKey: privKey.value,
+  };
+
+  EventsEmit("createAgent", obj);
 }
 
-function onClick(_e: Event) {
+function onClick() {
   open.value = !open.value;
   agentAddress.value = DEFAULT_AGENT_ADDRESS;
   agentPort.value = DEFAULT_AGENT_PORT;
@@ -77,7 +93,7 @@ const open = ref(true);
     id="agent-modify-modal"
     type="checkbox"
     class="fixed h-0 w-0 appearance-none opacity-0"
-    @change="onClick"
+    @change="onClick()"
   />
   <!-- TODO : do not close the modal by clicking outside the message box -->
   <div class="text-left text-black">
@@ -291,6 +307,23 @@ const open = ref(true);
                               v-show="selectedAgentType.id === 3"
                               class="space-y-6 pb-5"
                             >
+                              <div>
+                                <label
+                                  for="usmUserName"
+                                  class="block text-sm font-medium text-gray-900"
+                                >
+                                  USM User Name
+                                </label>
+                                <div class="mt-1">
+                                  <input
+                                    id="usmUserName"
+                                    v-model="usmUserName"
+                                    name="usmUserName"
+                                    type="text"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  />
+                                </div>
+                              </div>
                               <div>
                                 <label
                                   for="selection"
