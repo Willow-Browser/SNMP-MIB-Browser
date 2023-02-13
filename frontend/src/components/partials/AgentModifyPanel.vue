@@ -10,12 +10,20 @@ import {
 import WindowClose from "~icons/mdi/window-close";
 import LinkVariant from "~icons/mdi/link-variant";
 
+const DEFAULT_AGENT_ADDRESS = "";
+const DEFAULT_AGENT_PORT = "";
+
+const agentAddress = ref(DEFAULT_AGENT_ADDRESS);
+const agentPort = ref(DEFAULT_AGENT_PORT);
+
 function submit(payload: MouseEvent) {
   console.log(payload);
 }
 
 function onClick(_e: Event) {
   open.value = !open.value;
+  agentAddress.value = DEFAULT_AGENT_ADDRESS;
+  agentPort.value = DEFAULT_AGENT_PORT;
 }
 
 const open = ref(true);
@@ -28,6 +36,7 @@ const open = ref(true);
     class="fixed h-0 w-0 appearance-none opacity-0"
     @change="onClick"
   />
+  <!-- TODO : do not close the modal by clicking outside the message box -->
   <div class="text-left text-black">
     <TransitionRoot as="template" :show="open">
       <Dialog as="div" class="relative z-10" @close="open = false">
@@ -40,10 +49,10 @@ const open = ref(true);
             >
               <TransitionChild
                 as="template"
-                enter="transform transition ease-in-out duration-500 sm:duration-700"
+                enter="transform transition ease-in-out duration-300"
                 enter-from="translate-x-full"
                 enter-to="translate-x-0"
-                leave="transform transition ease-in-out duration-500 sm:duration-700"
+                leave="transform transition ease-in-out duration-300"
                 leave-from="translate-x-0"
                 leave-to="translate-x-full"
               >
@@ -55,7 +64,7 @@ const open = ref(true);
                       <div class="bg-indigo-700 py-6 px-4 sm:px-6">
                         <div class="flex items-center justify-between">
                           <DialogTitle class="text-lg font-medium text-white">
-                            New Project
+                            Modify Manager
                           </DialogTitle>
                           <div class="ml-3 flex h-7 items-center">
                             <button
@@ -68,12 +77,12 @@ const open = ref(true);
                             </button>
                           </div>
                         </div>
-                        <div class="mt-1">
+                        <!-- <div class="mt-1">
                           <p class="text-sm text-indigo-300">
                             Get started by filling in the information below to
                             create your new project.
                           </p>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="flex flex-1 flex-col justify-between">
                         <div class="divide-y divide-gray-200 px-4 sm:px-6">
@@ -88,6 +97,7 @@ const open = ref(true);
                               <div class="mt-1">
                                 <input
                                   id="project-name"
+                                  v-model="agentAddress"
                                   type="text"
                                   name="project-name"
                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -104,6 +114,7 @@ const open = ref(true);
                               <div class="mt-1">
                                 <input
                                   id="description"
+                                  v-model="agentPort"
                                   name="description"
                                   type="text"
                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
