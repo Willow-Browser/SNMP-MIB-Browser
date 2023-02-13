@@ -44,7 +44,7 @@ watch(selectedPerson, () => {
             />
           </span>
         </ListboxButton>
-        <transition
+        <Transition
           enter-active-class="transition duration-100 ease-out"
           enter-from-class="opacity-0"
           enter-to-class="opacity-100"
@@ -84,7 +84,7 @@ watch(selectedPerson, () => {
               </li>
             </ListboxOption>
           </ListboxOptions>
-        </transition>
+        </Transition>
       </div>
     </Listbox>
   </div>
