@@ -23,6 +23,7 @@ import { EventsEmit } from "../../../wailsjs/runtime/runtime";
 const DEFAULT_AGENT_ADDRESS = "";
 const DEFAULT_AGENT_PORT = "";
 
+const agentName = ref("");
 const agentAddress = ref(DEFAULT_AGENT_ADDRESS);
 const agentPort = ref(DEFAULT_AGENT_PORT);
 const readCommunity = ref("");
@@ -49,6 +50,7 @@ function submit(payload: MouseEvent) {
   console.log(payload);
 
   const obj = {
+    agentName: agentName.value,
     agentAddress: agentAddress.value,
     agentPort: agentPort.value,
     agentType: selectedAgentType.value,
@@ -85,7 +87,7 @@ function IsPrivKeyDisabled() {
   return true;
 }
 
-const open = ref(true);
+const open = ref(false);
 </script>
 
 <template>
@@ -148,33 +150,50 @@ const open = ref(true);
                           <div class="space-y-6 pt-6 pb-5">
                             <div>
                               <label
-                                for="project-name"
+                                for="agentName"
                                 class="block text-sm font-medium text-gray-900"
                               >
-                                Agent Address
+                                Agent Name
                               </label>
                               <div class="mt-1">
                                 <input
-                                  id="project-name"
-                                  v-model="agentAddress"
+                                  id="agentName"
+                                  v-model="agentName"
                                   type="text"
-                                  name="project-name"
+                                  name="agentName"
                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                               </div>
                             </div>
                             <div>
                               <label
-                                for="description"
+                                for="agentAddress"
+                                class="block text-sm font-medium text-gray-900"
+                              >
+                                Agent Address
+                              </label>
+                              <div class="mt-1">
+                                <input
+                                  id="agentAddress"
+                                  v-model="agentAddress"
+                                  type="text"
+                                  name="agentAddress"
+                                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                              </div>
+                            </div>
+                            <div>
+                              <label
+                                for="agentPort"
                                 class="block text-sm font-medium text-gray-900"
                               >
                                 Agent Port
                               </label>
                               <div class="mt-1">
                                 <input
-                                  id="description"
+                                  id="agentPort"
                                   v-model="agentPort"
-                                  name="description"
+                                  name="agentPort"
                                   type="text"
                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />

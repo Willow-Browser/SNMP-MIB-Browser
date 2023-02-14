@@ -41,11 +41,9 @@ func (a *App) startup(ctx context.Context) {
 	runtime.EventsOn(a.ctx, "selectedAgent", func(optionalData ...interface{}) {
 		data := optionalData[0]
 
-		idFloat := data.(map[string]interface{})["id"].(float64)
+		name := data.(map[string]interface{})["name"].(string)
 
-		idInt := int64(math.Round(idFloat))
-
-		fmt.Printf("%d\n", idInt)
+		fmt.Printf("%s\n", name)
 	})
 
 	runtime.EventsOn(a.ctx, "createAgent", func(optionalData ...interface{}) {
@@ -68,6 +66,7 @@ func (a *App) startup(ctx context.Context) {
 		agentPortInt, _ := strconv.Atoi(agentPortStr)
 
 		input := agent.InputType{
+			AgentName:      data.(map[string]interface{})["agentName"].(string),
 			AgentAddress:   data.(map[string]interface{})["agentAddress"].(string),
 			AgentPort:      uint16(agentPortInt),
 			AgentType:      agentType,
@@ -80,6 +79,8 @@ func (a *App) startup(ctx context.Context) {
 		}
 
 		a.agentStores.CreateNewAgent(input)
+
+		runtime.EventsEmit(a.ctx, "agentsUpdated")
 	})
 }
 
@@ -116,4 +117,8 @@ func (a *App) ParseMib() {
 
 func (a *App) GetCurrentOids() []oidstorage.Oid {
 	return a.loadedOids.GetLoadedOids()
+}
+
+func (a *App) GetAllCurrentAgents() []agent.AgentObj {
+	return a.agentStores.GetAllCurrentAgents()
 }

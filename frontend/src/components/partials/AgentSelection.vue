@@ -7,21 +7,37 @@ import {
 } from "@headlessui/vue";
 import Check from "~icons/mdi/check";
 import MenuSwap from "~icons/mdi/menu-swap";
-import { ref, watch } from "vue";
-import { EventsEmit } from "../../../wailsjs/runtime/runtime";
+import { ref, watch, onBeforeMount } from "vue";
+import { EventsEmit, EventsOn } from "../../../wailsjs/runtime/runtime";
+import { GetAllCurrentAgents } from "../../../wailsjs/go/main/App";
 
 const people = [
-  { id: 1, name: "Agent 1", unavailable: false },
-  { id: 2, name: "Agent 2", unavailable: false },
-  { id: 3, name: "Agent 3", unavailable: false },
-  { id: 4, name: "Agent 4", unavailable: true },
-  { id: 5, name: "Agent 5", unavailable: false },
+  { name: "Agent 1", unavailable: false },
+  { name: "Agent 2", unavailable: false },
+  { name: "Agent 3", unavailable: false },
+  { name: "Agent 4", unavailable: true },
+  { name: "Agent 5", unavailable: false },
 ];
 const selectedPerson = ref(people[0]);
+
+onBeforeMount(ReloadAgentSelection);
+
+async function ReloadAgentSelection() {
+  people.length = 0;
+  const newAgents = await GetAllCurrentAgents();
+  newAgents.forEach((newAgent) => {
+    people.push({
+      name: newAgent.name,
+      unavailable: false,
+    });
+  });
+}
 
 watch(selectedPerson, () => {
   EventsEmit("selectedAgent", selectedPerson.value);
 });
+
+EventsOn("agentsUpdated", ReloadAgentSelection);
 </script>
 
 <template>
@@ -57,7 +73,7 @@ watch(selectedPerson, () => {
           >
             <ListboxOption
               v-for="person in people"
-              :key="person.id"
+              :key="person.name"
               v-slot="{ active, selected }"
               :value="person"
               :disabled="person.unavailable"

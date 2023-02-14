@@ -8,16 +8,25 @@ import (
 )
 
 type AgentStorage struct {
-	agents []*g.GoSNMP
+	agents []AgentObj
+}
+
+type AgentObj struct {
+	Name  string `json:"name"`
+	agent *g.GoSNMP
 }
 
 func NewAgentStore() *AgentStorage {
 	return &AgentStorage{}
 }
 
+func (a *AgentStorage) GetAllCurrentAgents() []AgentObj {
+	return a.agents
+}
+
 func (a *AgentStorage) CloseAllConnections() {
 	for _, agent := range a.agents {
-		agent.Conn.Close()
+		agent.agent.Conn.Close()
 	}
 }
 
@@ -28,7 +37,13 @@ func (a *AgentStorage) CreateNewAgent(input InputType) {
 		agent = a.createV3_Agent(input)
 	}
 
-	a.agents = append(a.agents, agent)
+	agentObj := AgentObj{
+		Name:  input.AgentName,
+		agent: agent,
+	}
+
+	a.agents = append(a.agents, agentObj)
+
 }
 
 func (a *AgentStorage) createV3_Agent(input InputType) *g.GoSNMP {
