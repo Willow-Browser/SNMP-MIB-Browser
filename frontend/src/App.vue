@@ -2,23 +2,26 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import OidTree from "@/components/OidTree.vue";
 import TopBar from "@/components/TopBar.vue";
+import TabView from "./components/TabView.vue";
 </script>
 
 <template>
   <TopBar />
-  <OidTree />
-  <div class="overflow-hidden">
-    <div class="logo-box">
-      <img class="logo vite" src="./assets/vite.svg" />
-      <img class="logo electron" src="./assets/electron.svg" />
-      <img class="logo vue" src="./assets/vue.svg" />
-    </div>
-    <!-- <img id="logo" alt="Wails logo" src="./assets/images/logo-universal.png" /> -->
-    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-    <div class="static-public">
-      Place static files in the <code>/public/</code> folder
-      <img style="width: 77px" :src="'./node.png'" />
-    </div>
+  <div class="flex">
+    <OidTree />
+    <TabView />
+    <!-- <div class="overflow-hidden">
+      <div class="logo-box">
+        <img class="logo vite" src="./assets/vite.svg" />
+        <img class="logo electron" src="./assets/electron.svg" />
+        <img class="logo vue" src="./assets/vue.svg" />
+      </div>
+      <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+      <div class="static-public">
+        Place static files in the <code>/public/</code> folder
+        <img style="width: 77px" :src="'./node.png'" />
+      </div>
+    </div> -->
   </div>
 </template>
 
