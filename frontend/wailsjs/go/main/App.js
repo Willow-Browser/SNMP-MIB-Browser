@@ -13,3 +13,7 @@ export function GetCurrentOids() {
 export function ParseMib() {
   return window['go']['main']['App']['ParseMib']();
 }
+
+export function SendGetRequest() {
+  return window['go']['main']['App']['SendGetRequest']();
+}

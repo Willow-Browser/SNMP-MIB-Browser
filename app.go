@@ -44,6 +44,8 @@ func (a *App) startup(ctx context.Context) {
 		name := data.(map[string]interface{})["name"].(string)
 
 		fmt.Printf("%s\n", name)
+
+		a.agentStores.SelectCurrentAgent(name)
 	})
 
 	runtime.EventsOn(a.ctx, "createAgent", func(optionalData ...interface{}) {
@@ -121,4 +123,10 @@ func (a *App) GetCurrentOids() []oidstorage.Oid {
 
 func (a *App) GetAllCurrentAgents() []agent.AgentObj {
 	return a.agentStores.GetAllCurrentAgents()
+}
+
+// sending a simple get from selected agent
+// selectable OID not yet available
+func (a *App) SendGetRequest() {
+	a.agentStores.PerformSnmpGet()
 }

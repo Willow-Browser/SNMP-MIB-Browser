@@ -8,7 +8,8 @@ import (
 )
 
 type AgentStorage struct {
-	agents []AgentObj
+	agents       []AgentObj
+	currentAgent *g.GoSNMP
 }
 
 type AgentObj struct {
@@ -27,6 +28,37 @@ func (a *AgentStorage) GetAllCurrentAgents() []AgentObj {
 func (a *AgentStorage) CloseAllConnections() {
 	for _, agent := range a.agents {
 		agent.agent.Conn.Close()
+	}
+}
+
+func (a *AgentStorage) SelectCurrentAgent(name string) {
+	for _, agent := range a.agents {
+		if agent.Name == name {
+			a.currentAgent = agent.agent
+			return
+		}
+	}
+
+	log.Fatalf("Invalid agent selected")
+}
+
+func (a *AgentStorage) PerformSnmpGet() {
+	oids := []string{"1.3.6.1.2.1.1.4.0"}
+
+	result, err := a.currentAgent.Get(oids)
+	if err != nil {
+		log.Fatalf("Get() err: %v", err)
+	}
+
+	for i, variable := range result.Variables {
+		log.Printf("%d: oid: %s ", i, variable.Name)
+
+		switch variable.Type {
+		case g.OctetString:
+			log.Printf("string: %s\n", string(variable.Value.([]byte)))
+		default:
+			log.Printf("number: %d\n", g.ToBigInt(variable.Value))
+		}
 	}
 }
 

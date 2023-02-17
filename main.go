@@ -49,6 +49,11 @@ func main() {
 		runtime.Quit(app.ctx)
 	})
 
+	OperationsMenu := AppMenu.AddSubmenu("Operations")
+	OperationsMenu.AddText("Get", keys.CmdOrCtrl("g"), func(cd *menu.CallbackData) {
+		app.SendGetRequest()
+	})
+
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:      "test-wails",
