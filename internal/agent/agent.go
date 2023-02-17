@@ -1,15 +1,25 @@
 package agent
 
 import (
+	"bytes"
+	"encoding/gob"
 	"log"
 	"time"
 
 	g "github.com/gosnmp/gosnmp"
+	"github.com/xujiajun/nutsdb"
+
+	"github.com/willowbrowser/snmpmibbrowser/internal/oidstorage"
+)
+
+const (
+	bucket = "agents"
 )
 
 type AgentStorage struct {
 	agents       []AgentObj
 	currentAgent *g.GoSNMP
+	db           *oidstorage.DB
 }
 
 type AgentObj struct {
@@ -17,8 +27,53 @@ type AgentObj struct {
 	agent *g.GoSNMP
 }
 
-func NewAgentStore() *AgentStorage {
-	return &AgentStorage{}
+func NewAgentStore(db *oidstorage.DB) *AgentStorage {
+	gob.Register(AgentObj{})
+	var newAgents []AgentObj
+
+	a := func(tx *nutsdb.Tx) error {
+		return nil
+	}
+
+	db.Update(a)
+
+	if err := db.Test().View(func(tx *nutsdb.Tx) error {
+		entries, err := tx.GetAll(bucket)
+		if err != nil {
+			if err.Error() == "bucket is empty" {
+				return nil
+			}
+			return err
+		}
+
+		for _, entry := range entries {
+			input := entry.Value
+			buf := bytes.NewBuffer(input)
+			dec := gob.NewDecoder(buf)
+
+			var a AgentObj
+			err := dec.Decode(&a)
+			// TODO : when decoding, the pointer is always nil...duh it's a pointer
+			if err != nil {
+				log.Printf("decode: %v", err)
+				// return nil
+			} else {
+				if err := a.agent.Connect(); err != nil {
+					log.Fatalf("Connect() err: %v", err)
+				}
+
+				newAgents = append(newAgents, a)
+			}
+		}
+		return nil
+	}); err != nil {
+		log.Fatalln(err)
+	}
+
+	return &AgentStorage{
+		db:     db,
+		agents: newAgents,
+	}
 }
 
 func (a *AgentStorage) GetAllCurrentAgents() []AgentObj {
@@ -72,6 +127,20 @@ func (a *AgentStorage) CreateNewAgent(input InputType) {
 	agentObj := AgentObj{
 		Name:  input.AgentName,
 		agent: agent,
+	}
+
+	if err := a.db.Test().Update(func(tx *nutsdb.Tx) error {
+		var buf bytes.Buffer
+		enc := gob.NewEncoder(&buf)
+		enc.Encode(&agentObj)
+		key := []byte(input.AgentName)
+		value := buf.Bytes()
+		if err := tx.Put(bucket, key, value, 0); err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
+		log.Fatalf("Update error: %v", err)
 	}
 
 	a.agents = append(a.agents, agentObj)

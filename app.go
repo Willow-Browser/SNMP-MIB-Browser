@@ -30,7 +30,7 @@ func NewApp() *App {
 	return &App{
 		loadedOids:  loadedOids,
 		db:          db,
-		agentStores: agent.NewAgentStore(),
+		agentStores: agent.NewAgentStore(db),
 	}
 }
 
