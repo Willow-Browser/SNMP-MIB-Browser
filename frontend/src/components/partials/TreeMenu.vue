@@ -11,9 +11,12 @@ import TableRow from "~icons/mdi/table-row";
 import LightningBolt from "~icons/mdi/lightning-bolt";
 import PlusCircle from "~icons/mdi/plus-circle-outline";
 import FolderOutline from "~icons/mdi/folder-outline";
+import { Icon } from "@iconify/vue";
 import { OidTree } from "../../utils/treeBuilder";
+import { EventsEmit, EventsOn } from "../../../wailsjs/runtime/runtime";
 
 const showChildren = ref(false);
+const isSelected = ref(false);
 
 const props = defineProps<{
   node: OidTree;
@@ -98,27 +101,42 @@ function isNotificationType(): boolean {
 
 function printType() {
   console.log(props.node);
+
+  toggleChildren();
+}
+
+EventsOn("deselectItems", () => {
+  if (isSelected.value) {
+    isSelected.value = false;
+  }
+});
+
+function onClick(payload: MouseEvent) {
+  if (!payload.ctrlKey) {
+    EventsEmit("deselectItems");
+  }
+
+  isSelected.value = true;
 }
 </script>
 
 <template>
   <div>
-    <div class="mb-1 pb-1" @click="toggleChildren">
+    <div class="pb-1">
       <div
         :style="indent"
         :class="cursorClass()"
         class="flex text-gray-900"
         @dblclick="printType()"
       >
-        <PlusBoxOutline
-          v-if="hasChildren() && !showChildren"
+        <Icon
+          v-if="hasChildren()"
+          :icon="
+            showChildren ? 'mdi:minus-box-outline' : 'mdi:plus-box-outline'
+          "
           height="20"
           width="20"
-        />
-        <MinusBoxOutline
-          v-else-if="hasChildren() && showChildren"
-          height="20"
-          width="20"
+          @click="toggleChildren"
         />
         <div :class="calculatePadding()" class="flex">
           <FolderOutline
@@ -154,13 +172,17 @@ function printType() {
             height="20"
             width="20"
           />
-          <p class="pl-1">
+          <p
+            class="select-none px-1"
+            :class="isSelected ? 'bg-blue-600 text-white' : ''"
+            @click="onClick"
+          >
             {{ node.name }}
           </p>
         </div>
       </div>
     </div>
-    <div v-if="showChildren">
+    <div v-show="showChildren">
       <TreeMenu
         v-for="oid in node.children"
         :key="oid.oid"

@@ -23,19 +23,18 @@ type AgentStorage struct {
 }
 
 type AgentObj struct {
-	Name  string `json:"name"`
-	agent *g.GoSNMP
+	Name          string `json:"name"`
+	OriginalInput InputType
+	agent         *g.GoSNMP
 }
 
 func NewAgentStore(db *oidstorage.DB) *AgentStorage {
 	gob.Register(AgentObj{})
 	var newAgents []AgentObj
 
-	a := func(tx *nutsdb.Tx) error {
-		return nil
+	agentStore := AgentStorage{
+		db: db,
 	}
-
-	db.Update(a)
 
 	if err := db.Test().View(func(tx *nutsdb.Tx) error {
 		entries, err := tx.GetAll(bucket)
@@ -55,9 +54,11 @@ func NewAgentStore(db *oidstorage.DB) *AgentStorage {
 			err := dec.Decode(&a)
 			// TODO : when decoding, the pointer is always nil...duh it's a pointer
 			if err != nil {
-				log.Printf("decode: %v", err)
+				log.Printf("decode error: %v", err)
 				// return nil
 			} else {
+				a.agent = agentStore.createAgent(a.OriginalInput)
+
 				if err := a.agent.Connect(); err != nil {
 					log.Fatalf("Connect() err: %v", err)
 				}
@@ -70,10 +71,9 @@ func NewAgentStore(db *oidstorage.DB) *AgentStorage {
 		log.Fatalln(err)
 	}
 
-	return &AgentStorage{
-		db:     db,
-		agents: newAgents,
-	}
+	agentStore.agents = newAgents
+
+	return &agentStore
 }
 
 func (a *AgentStorage) GetAllCurrentAgents() []AgentObj {
@@ -125,8 +125,9 @@ func (a *AgentStorage) CreateNewAgent(input InputType) {
 	}
 
 	agentObj := AgentObj{
-		Name:  input.AgentName,
-		agent: agent,
+		Name:          input.AgentName,
+		OriginalInput: input,
+		agent:         agent,
 	}
 
 	if err := a.db.Test().Update(func(tx *nutsdb.Tx) error {
@@ -138,13 +139,29 @@ func (a *AgentStorage) CreateNewAgent(input InputType) {
 		if err := tx.Put(bucket, key, value, 0); err != nil {
 			return err
 		}
+
+		newBuf := bytes.NewBuffer(buf.Bytes())
+		dec := gob.NewDecoder(newBuf)
+
+		var a AgentObj
+		dec.Decode(&a)
+
 		return nil
 	}); err != nil {
 		log.Fatalf("Update error: %v", err)
 	}
 
 	a.agents = append(a.agents, agentObj)
+}
 
+func (a *AgentStorage) createAgent(input InputType) *g.GoSNMP {
+	var agent *g.GoSNMP
+
+	if input.AgentType.Id == 3 {
+		agent = a.createV3_Agent(input)
+	}
+
+	return agent
 }
 
 func (a *AgentStorage) createV3_Agent(input InputType) *g.GoSNMP {
