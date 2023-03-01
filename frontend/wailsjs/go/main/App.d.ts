@@ -10,3 +10,5 @@ export function GetCurrentOids():Promise<Array<oidstorage.Oid>>;
 export function ParseMib():Promise<void>;
 
 export function SendGetRequest():Promise<void>;
+
+export function SendGetRequestWithOid(arg1:string):Promise<void>;

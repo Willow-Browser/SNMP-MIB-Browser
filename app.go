@@ -130,3 +130,7 @@ func (a *App) GetAllCurrentAgents() []agent.AgentObj {
 func (a *App) SendGetRequest() {
 	a.agentStores.PerformSnmpGet()
 }
+
+func (a *App) SendGetRequestWithOid(oid string) {
+	a.agentStores.PerformSnmpGetOid(oid)
+}

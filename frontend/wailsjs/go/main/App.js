@@ -17,3 +17,7 @@ export function ParseMib() {
 export function SendGetRequest() {
   return window['go']['main']['App']['SendGetRequest']();
 }
+
+export function SendGetRequestWithOid(arg1) {
+  return window['go']['main']['App']['SendGetRequestWithOid'](arg1);
+}

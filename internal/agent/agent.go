@@ -117,6 +117,27 @@ func (a *AgentStorage) PerformSnmpGet() {
 	}
 }
 
+func (a *AgentStorage) PerformSnmpGetOid(oid string) {
+	oids := []string{oid}
+
+	result, err := a.currentAgent.Get(oids)
+	if err != nil {
+		log.Fatalf("Get() err: %v", err)
+	}
+
+	for i, variable := range result.Variables {
+		log.Printf("%d: oid: %s ", i, variable.Name)
+		log.Printf("%d: type: %s ", i, variable.Type.String())
+
+		switch variable.Type {
+		case g.OctetString:
+			log.Printf("string: %s\n", string(variable.Value.([]byte)))
+		default:
+			log.Printf("number: %d\n", g.ToBigInt(variable.Value))
+		}
+	}
+}
+
 func (a *AgentStorage) CreateNewAgent(input InputType) {
 	var agent *g.GoSNMP
 

@@ -51,7 +51,7 @@ func main() {
 
 	OperationsMenu := AppMenu.AddSubmenu("Operations")
 	OperationsMenu.AddText("Get", keys.CmdOrCtrl("g"), func(cd *menu.CallbackData) {
-		app.SendGetRequest()
+		runtime.EventsEmit(app.ctx, "sendSelectedOids")
 	})
 
 	// Create application with options

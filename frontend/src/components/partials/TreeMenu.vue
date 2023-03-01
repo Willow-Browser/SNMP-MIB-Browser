@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import PlusBoxOutline from "~icons/mdi/plus-box-outline";
-import MinusBoxOutline from "~icons/mdi/minus-box-outline";
 // import Folder from "~icons/mdi/folder";
 import Key from "~icons/mdi/key-variant";
 import Leaf from "~icons/mdi/leaf";
@@ -14,6 +12,7 @@ import FolderOutline from "~icons/mdi/folder-outline";
 import { Icon } from "@iconify/vue";
 import { OidTree } from "../../utils/treeBuilder";
 import { EventsEmit, EventsOn } from "../../../wailsjs/runtime/runtime";
+import { SendGetRequestWithOid } from "../../../wailsjs/go/main/App";
 
 const showChildren = ref(false);
 const isSelected = ref(false);
@@ -111,6 +110,13 @@ EventsOn("deselectItems", () => {
   }
 });
 
+EventsOn("sendSelectedOids", () => {
+  if (isSelected.value) {
+    const oidString = props.node.oid + ".0";
+    SendGetRequestWithOid(oidString);
+  }
+});
+
 function onClick(payload: MouseEvent) {
   if (!payload.ctrlKey) {
     EventsEmit("deselectItems");
@@ -173,7 +179,7 @@ function onClick(payload: MouseEvent) {
             width="20"
           />
           <p
-            class="select-none px-1"
+            class="ml-1 select-none pr-1"
             :class="isSelected ? 'bg-blue-600 text-white' : ''"
             @click="onClick"
           >
