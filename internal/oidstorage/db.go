@@ -36,4 +36,10 @@ func (d *DB) CloseDb() {
 	d.db.Close()
 }
 
-func (d *DB) Test() {}
+func (d *DB) Test() *nutsdb.DB {
+	return d.db
+}
+
+func (d *DB) Update(fn func(tx *nutsdb.Tx) error) error {
+	return d.db.Update(fn)
+}
