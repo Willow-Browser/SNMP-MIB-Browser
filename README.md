@@ -23,8 +23,10 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GPL License][license-shield]][license-url]
+[![Discord][discord-shield]][discord-url]
 
-Please not this readme is not yet complete
+
+<h1 align="center"> Please note this readme is not yet complete</h1>
 
 <!-- PROJECT LOGO -->
 <br />
@@ -38,12 +40,10 @@ Please not this readme is not yet complete
   <p align="center">
     An awesome open-source graphical SNMP Manager to help with agent development.
     <br />
-    <a href="https://github.com/Willow-Browser/SNMP-MIB-Browser"><strong>Explore the docs »</strong></a>
+    <a href="https://willow-browser.com"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Willow-Browser/SNMP-MIB-Browser">View Demo</a>
-    ·
-    <a href="https://github.com/Willow-Browser/SNMP-MIB-Browser/issues">Report Bug</a>
+    <a href="https://github.com/Willow-Browser/SNMP-MIB-Browser/issues">Report Bug or re</a>
     ·
     <a href="https://github.com/Willow-Browser/SNMP-MIB-Browser/issues">Request Feature</a>
   </p>
@@ -82,9 +82,14 @@ Please not this readme is not yet complete
 ## About The Project
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
-<p align="center">Add screenshot here</p>
+<!-- <p align="center">Add screenshot here</p> -->
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `Willow-Browser`, `SNMP-MIB-Browser`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+SNMP is a tough thing to figure out, and organizing all of your mibs and easily getting and settingOIDs without
+writing a thousand scripts is nearly impossible. This tool aims to fix all of that by allowing users to graphically
+browse all of their OIDS and run an SNMP agent all from one location. This all started as a side project but
+quickly growing into a fantastic tool for interacting with SNMP agents.
+
+SNMP v1, v2, and v3 agents will be supported. Currently only v3 agents with no auth and no priv are supported.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -109,27 +114,11 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Make sure to have the wails CLI installed before development.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/Willow-Browser/SNMP-MIB-Browser.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+TBD - Installer has not been created yet. Will be updated at a later point.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -171,6 +160,18 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+We 💖 contributors! Feel free to contribute to this project by either helping with the browser or head over to the documentation repo to help improve the quality of our docs! We also welcome you to join our [Discord](https://discord.gg/s4xkWJsF) community for either support or contributing guidance.
+
+<a href="https://github.com/Willow-Browser/SNMP-MIB-Browser/graphs/contributors">
+  <p align="center">
+    <img src="https://contrib.rocks/image?repo=Willow-Browser/SNMP-MIB-Browser" />
+  </p>
+</a>
+
+<p align="center">
+  Made with <a rel="noopener noreferrer" target="_blank" href="https://contrib.rocks">contrib.rocks</a>
+</p>
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -205,5 +206,7 @@ Project Link: [https://github.com/Willow-Browser/SNMP-MIB-Browser](https://githu
 [stars-url]: https://github.com/Willow-Browser/SNMP-MIB-Browser/stargazers
 [issues-shield]: https://img.shields.io/github/issues/Willow-Browser/SNMP-MIB-Browser.svg?style=for-the-badge
 [issues-url]: https://github.com/Willow-Browser/SNMP-MIB-Browser/issues
+[discord-shield]: https://img.shields.io/discord/1063282410004942910?color=%235865F2&label=Discord&logo=discord&logoColor=%23fff&style=for-the-badge
+[discord-url]: https://discord.gg/s4xkWJsF
 [license-shield]: https://img.shields.io/github/license/Willow-Browser/SNMP-MIB-Browser.svg?style=for-the-badge
 [license-url]: https://github.com/Willow-Browser/SNMP-MIB-Browser/blob/master/LICENSE.txt
